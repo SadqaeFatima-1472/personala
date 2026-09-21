@@ -66,13 +66,10 @@
 .tl-content p  { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.55; }
 .tag-alert { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:#EF4444; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); padding:2px 6px; margin-bottom:.2rem; }
 
-/* API Block */
-.api-block { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); padding:1.4rem; margin-top:1.4rem; border-top:2px solid var(--orange, #FF8A3D); }
-.api-block pre { font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.75; overflow-x:auto; white-space:pre-wrap; word-break:break-all; }
-.api-block .kw  { color:#a78bfa; }
-.api-block .str { color:#6ee7b7; }
-.api-block .num { color:#fbbf24; }
-.api-block .cm  { color:rgba(220,218,240,0.26); }
+/* API Block (now teaser, not a code sample) */
+.api-teaser { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); padding:1.6rem 1.7rem; margin-top:1.4rem; border-top:2px solid var(--orange, #FF8A3D); }
+.api-teaser p { font-size:13.5px; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
+.api-teaser p + p { margin-top: .8rem; }
 .api-caps { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); border-top:none; }
 .api-cap { background:var(--navy-deep, #14153E); padding:1rem 1.1rem; }
 .api-cap-label { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--orange, #FF8A3D); margin-bottom:.35rem; }
@@ -122,10 +119,13 @@
 .result-cell .rval.ok { color:var(--teal, #14B8A9); }
 .result-cell .rval.warn { color:var(--orange2, #FFB85C); }
 .result-cell .rval.bad { color:#EF4444; }
+.result-cell.locked { position:relative; }
+.result-cell.locked .rval { font-size:1rem; color: var(--text-secondary, rgba(220,218,240,0.5)); }
+.result-cell.locked .runlock { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--orange2, #FFB85C); margin-top:.3rem; cursor:pointer; text-decoration:underline; }
 .feature-list { margin-top:1rem; }
-.feature-row { display:flex; justify-content:space-between; align-items:center; padding:.5rem 0; border-bottom:1px solid var(--panel-border-soft, rgba(90,100,220,0.12)); font-size:12.5px; }
-.feature-row .fname { color:var(--text-primary, #F6F5F2); }
-.feature-row .fpsi { font-family:'JetBrains Mono',monospace; }
+.feature-summary { font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
+.feature-summary .fnames { color:var(--text-primary, #F6F5F2); font-weight:600; }
+.feature-cta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--orange2, #FFB85C); margin-top:.6rem; text-decoration:underline; cursor:pointer; display:inline-block; }
 
 @media (max-width: 640px) {
   .ba { grid-template-columns:1fr; }
@@ -162,9 +162,9 @@
       </div>
 
       <div class="stat-strip">
-        <div><div class="num">Live</div><div class="label">System validated on real production model</div></div>
+        <div><div class="num">Live</div><div class="label">Validated on a real production model</div></div>
         <div><div class="num">5–7d</div><div class="label">Days to your audit report</div></div>
-        <div><div class="num">11+</div><div class="label">IEEE / Springer / Wiley publications</div></div>
+        <div><div class="num">Peer-reviewed</div><div class="label">Research foundation behind the approach</div></div>
       </div>
     </div>
   </section>
@@ -181,32 +181,32 @@
       </div>
 
       <div class="tool-panel">
-        <span class="tool-badge">⚡ Runs entirely in your browser · No data uploaded to any server · Results generated locally</span>
+        <span class="tool-badge">⚡ Runs entirely in your browser · Nothing is uploaded to any server</span>
 
         <div class="dropzone" id="dropzone" onclick="document.getElementById('csvInput').click()">
           <div class="dz-icon">📊</div>
           <div class="dz-main">Drop your prediction CSV here</div>
           <div class="dz-sub">Needs at least: <code>prediction_score</code> or <code>y_pred</code> (0/1), and optionally <code>y_true</code>, feature columns<br>Works with any model — fraud, credit, churn, LLM scoring</div>
-          <div class="dz-sub" style="margin-top:.5rem;">Accepts: .csv · Max 10MB · Browser-only processing</div>
+          <div class="dz-sub" style="margin-top:.5rem;">Accepts: .csv · Max 10MB · Processed on your device only</div>
           <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleFile(this.files[0])">
         </div>
 
         <div class="tool-controls">
           <div class="form-row">
-            <label>Production periods to simulate <span id="periodsVal">5</span></label>
+            <label>Production periods to check <span id="periodsVal">5</span></label>
             <input type="range" id="periodsRange" min="2" max="10" value="5" oninput="document.getElementById('periodsVal').textContent=this.value">
           </div>
           <div class="form-row">
-            <label>PSI alert threshold <span id="psiVal">0.25</span></label>
-            <input type="range" id="psiRange" min="0.05" max="0.5" step="0.01" value="0.25" oninput="document.getElementById('psiVal').textContent=this.value">
+            <label>Alert sensitivity <span id="psiVal">Balanced</span></label>
+            <input type="range" id="psiRange" min="0.05" max="0.5" step="0.01" value="0.25" oninput="updateSensitivityLabel(this.value)">
           </div>
           <div class="form-row">
-            <label>Cost per missed fraud ($) <span id="costVal">100</span></label>
+            <label>What a missed case costs you ($) <span id="costVal">100</span></label>
             <input type="range" id="costRange" min="10" max="1000" step="10" value="100" oninput="document.getElementById('costVal').textContent=this.value">
           </div>
         </div>
 
-        <div class="tool-note">🔒 No data is uploaded to any server · All computation happens locally in your browser</div>
+        <div class="tool-note">🔒 Nothing is uploaded to any server · everything below is computed on your device</div>
 
         <div class="tool-results" id="toolResults">
           <div class="result-grid" id="resultGrid"></div>
@@ -232,11 +232,11 @@
           <div class="layer-tag detect">Sentinel Detect</div>
           <h3>Catch it before your losses do</h3>
           <div class="layer-tagline detect">The fraud that got through. The applicant who shouldn't have qualified.</div>
-          <p>Sentinel continuously checks whether your model is still making the same kind of decisions it made when it was approved — not whether the server is up, whether the *decisions* are still right. When a feature's distribution shifts or recall starts slipping, you get an alert with the specific feature and the specific number, not a vague dashboard.</p>
+          <p>Sentinel continuously checks whether your model is still making the same kind of decisions it made when it was approved — not whether the server is up, whether the *decisions* are still right. When something shifts, you get an alert naming what changed, not a vague dashboard.</p>
           <ul class="layer-features">
-            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Recall and feature-drift tracked every period, not just at deployment</li>
-            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Alerts on the specific feature that moved, with the number attached</li>
-            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Threshold recommendations weighted to your actual cost of a miss</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Model behavior tracked every period, not just at deployment</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Alerts point to what actually changed</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Recommendations weighted to what a miss actually costs you</li>
             <li><span style="color:#FFB85C;flex-shrink:0">✓</span> One model or many — each one monitored independently, nothing shared</li>
           </ul>
         </div>
@@ -244,23 +244,22 @@
           <div class="layer-tag govern">Sentinel Govern</div>
           <h3>The paperwork, already done</h3>
           <div class="layer-tagline govern">Answer the auditor in minutes, not a scramble.</div>
-          <p>Every drift check, every threshold change, every model deployment is written to a tamper-evident record and automatically mapped to the specific EU AI Act article or DORA requirement it serves as evidence for. When someone asks "prove your risk-management process is working," you pull a report — you don't reconstruct one from memory.</p>
+          <p>Every check, every change, every deployment is written to a tamper-evident record and mapped to the specific regulation it serves as evidence for. When someone asks "prove your risk-management process is working," you pull a report — you don't reconstruct one from memory.</p>
           <ul class="layer-features">
-            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Evidence auto-mapped to EU AI Act Articles 9–17</li>
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Evidence auto-mapped to the EU AI Act and DORA</li>
             <li><span style="color:#E8B020;flex-shrink:0">✓</span> Tamper-evident audit trail — verifiable, not just claimed</li>
             <li><span style="color:#E8B020;flex-shrink:0">✓</span> Survives infrastructure restarts — the record doesn't disappear</li>
-            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Report generated on demand, scoped to any model or time window</li>
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Report generated on demand, for any model or time window</li>
           </ul>
         </div>
         <div class="layer-card">
           <div class="layer-tag explain">Sentinel Explain <span class="layer-badge-soon">In development</span></div>
           <h3>Why the model decided what it decided</h3>
           <div class="layer-tagline explain">Turning "the model flagged it" into an answer you can give a customer.</div>
-          <p>Feature attribution, counterfactual explanations, and plain-language decision summaries — so when a customer or regulator asks why a specific decision was made, you have a real answer instead of a shrug. This layer is actively being built; ask us where it stands for your use case.</p>
+          <p>A plain-language reason behind every alert — so when a customer or regulator asks why a decision was made, you have a real answer instead of a shrug. Ask us where this stands for your use case.</p>
           <ul class="layer-features">
-            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Feature attribution per decision</li>
-            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Counterfactual explanation generation</li>
-            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Plain-language decision summaries</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Plain-language reasons behind every alert</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Built directly from what already drives your model's decisions</li>
           </ul>
         </div>
       </div>
@@ -287,17 +286,17 @@
         <div class="diff-card">
           <div class="vs-them">One accuracy number for everyone</div>
           <div class="vs-us">Weighted to what a miss actually costs you</div>
-          <p>A missed fraud case and a false decline don't cost the same. Sentinel's threshold recommendations are optimized against your real cost, not a generic accuracy score.</p>
+          <p>A missed fraud case and a false decline don't cost the same. Sentinel's recommendations are built around your real cost, not a generic accuracy score.</p>
         </div>
         <div class="diff-card">
           <div class="vs-them">A six-month infrastructure project</div>
           <div class="vs-us">Send us your scores, get monitoring today</div>
-          <p>No Kubernetes, no platform migration. If your model already outputs a score, Sentinel can start watching it this week.</p>
+          <p>No platform migration, nothing to re-architect. If your model already outputs a score, Sentinel can start watching it this week.</p>
         </div>
         <div class="diff-card">
           <div class="vs-them">Charts only your engineers open</div>
           <div class="vs-us">A report your compliance team can hand over</div>
-          <p>Every check is written as evidence, mapped to the specific regulatory article it supports — built for the person who has to answer the auditor, not just the person who built the model.</p>
+          <p>Every check is written as evidence, mapped to the regulation it supports — built for the person who has to answer the auditor, not just the person who built the model.</p>
         </div>
         <div class="diff-card">
           <div class="vs-them">Retrained blind, redeployed blind</div>
@@ -307,7 +306,7 @@
         <div class="diff-card">
           <div class="vs-them">One model per account, take it or leave it</div>
           <div class="vs-us">Every model kept fully separate</div>
-          <p>Your fraud model and a colleague's credit model — or two different customers' models — never share reference data, thresholds, or alerts. Verified, not assumed.</p>
+          <p>Your fraud model and a colleague's credit model — or two different customers' models — never share data, thresholds, or alerts. Verified, not assumed.</p>
         </div>
       </div>
     </div>
@@ -327,31 +326,32 @@
       <div class="timeline">
         <div class="tl-item"><div class="tl-dot">P0</div><div class="tl-content"><h4>Deployment baseline</h4><p>Model trained and validated. Strong performance on held-out test data — the number everyone signs off on.</p></div></div>
         <div class="tl-item"><div class="tl-dot">P1–2</div><div class="tl-content"><h4>Performance begins shifting</h4><p>The patterns underneath start moving. Without something watching for it, this is completely invisible.</p></div></div>
-        <div class="tl-item"><div class="tl-dot">P3–4</div><div class="tl-content"><h4>Degradation compounds</h4><p>Recall and precision drift in ways that still look fine in a monthly summary but aren't.</p></div></div>
-        <div class="tl-item"><div class="tl-dot alert">P5</div><div class="tl-content"><span class="tag-alert">Alert fires</span><h4>Sentinel catches it here</h4><p>Recall drops below your defined safety threshold. You get the alert — and the evidence record — before the losses compound further.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">P3–4</div><div class="tl-content"><h4>Degradation compounds</h4><p>Performance drifts in ways that still look fine in a monthly summary but aren't.</p></div></div>
+        <div class="tl-item"><div class="tl-dot alert">P5</div><div class="tl-content"><span class="tag-alert">Alert fires</span><h4>Sentinel catches it here</h4><p>Performance drops below your defined safety threshold. You get the alert — and the evidence record — before the losses compound further.</p></div></div>
       </div>
     </div>
   </section>
 
   <hr class="divider">
 
-  <!-- API -->
+  <!-- API (teaser, not documentation) -->
   <section id="api-access" class="section">
     <div class="wrap">
       <div class="section-head">
         <span class="kicker" style="color:var(--teal, #14B8A9);">API ACCESS</span>
         <h2>Bring your own model's scores — we do the rest</h2>
-        <p>You don't need to hand over your model. Send Sentinel the scores and labels it's already producing, and it handles drift detection, threshold optimization, and compliance evidence — isolated per model, so multiple teams or customers can run on the same account without touching each other's data.</p>
+        <p>You don't need to hand over your model. Send Sentinel the scores and labels it's already producing, and it handles the monitoring and the compliance evidence — kept fully separate per model, so multiple teams or customers can run on the same account without touching each other's data.</p>
       </div>
 
-      <div class="api-block">
-        <pre><span class="cm"># Register a model's baseline, then check for drift — POST /tenants/{model_id}/reference&#10;</span><span class="kw">import</span> requests&#10;&#10;requests.<span class="kw">post</span>(&#10;    <span class="str">f"https://api.strataforge3.com/tenants/{model_id}/reference"</span>,&#10;    headers={<span class="str">"Authorization"</span>: <span class="str">"Bearer &lt;your_api_key&gt;"</span>},&#10;    json={<span class="str">"data"</span>: baseline_rows, <span class="str">"labels"</span>: baseline_labels}&#10;)&#10;&#10;<span class="cm"># Later, check today's batch against that baseline&#10;</span>response = requests.<span class="kw">post</span>(&#10;    <span class="str">f"https://api.strataforge3.com/tenants/{model_id}/drift/report"</span>,&#10;    headers={<span class="str">"Authorization"</span>: <span class="str">"Bearer &lt;your_api_key&gt;"</span>},&#10;    json={<span class="str">"transactions"</span>: todays_rows}&#10;)&#10;&#10;<span class="cm"># Returns: alert level · drift score · which features moved, and by how much&#10;</span>data = response.json()&#10;<span class="kw">print</span>(data[<span class="str">"alert_level"</span>], data[<span class="str">"mean_psi"</span>], data[<span class="str">"critical_features"</span>])</pre>
+      <div class="api-teaser">
+        <p>Integration is a small, focused piece of work for most engineering teams — typically a matter of days, not a platform project. There's no infrastructure to stand up on your side and nothing to migrate.</p>
+        <p>We'll walk through exactly what that looks like for your stack on a scoping call, including what data you'd send, how alerts reach your team, and how the compliance reporting maps to your specific regulatory obligations.</p>
       </div>
       <div class="api-caps">
-        <div class="api-cap"><div class="api-cap-label">Endpoints</div><p>/tenants/{model_id}/reference · /drift/report · /threshold/optimize · /compliance/report/{framework}</p></div>
-        <div class="api-cap"><div class="api-cap-label">Formats</div><p>JSON · Webhook alerts</p></div>
-        <div class="api-cap"><div class="api-cap-label">Auth</div><p>Bearer token · Key rotation · IP allowlisting</p></div>
-        <div class="api-cap"><div class="api-cap-label">Status</div><p>Live · Provisioned per engagement</p></div>
+        <div class="api-cap"><div class="api-cap-label">Integration effort</div><p>Typically days, not a platform migration</p></div>
+        <div class="api-cap"><div class="api-cap-label">Alerts</div><p>Delivered however your team already works</p></div>
+        <div class="api-cap"><div class="api-cap-label">Access</div><p>Provisioned per engagement, on a call</p></div>
+        <div class="api-cap"><div class="api-cap-label">Status</div><p>Live</p></div>
       </div>
     </div>
   </section>
@@ -447,7 +447,17 @@ function submitQuote(){
 
 document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
 
-/* ── Free Drift Health Check — all client-side, no network calls ── */
+function updateSensitivityLabel(val){
+  const v = parseFloat(val);
+  const label = v < 0.15 ? 'Strict' : v < 0.30 ? 'Balanced' : v < 0.40 ? 'Relaxed' : 'Loose';
+  document.getElementById('psiVal').textContent = label;
+}
+
+/* ── Free Drift Health Check — all client-side, no network calls ──
+   Note: internal method names (the exact statistical test, exact
+   threshold formula) are intentionally not surfaced in the UI copy —
+   results are shown as plain-language status, not raw scores, so the
+   tool demonstrates value without documenting the mechanism. */
 const dz = document.getElementById('dropzone');
 ['dragover','dragleave','drop'].forEach(evt=>{
   dz.addEventListener(evt, e=>{
@@ -470,7 +480,7 @@ function parseCSV(text){
   return { headers, rows };
 }
 
-function psi(expected, actual, buckets=10){
+function driftScore(expected, actual, buckets=10){
   const sorted = [...expected].sort((a,b)=>a-b);
   const breakpoints = [];
   for(let i=0;i<=buckets;i++){
@@ -513,7 +523,7 @@ function runDriftCheck(headers, rows){
   if(!scoreCol){ alert('No prediction_score / y_pred column found.'); return; }
 
   const periods = parseInt(document.getElementById('periodsRange').value, 10);
-  const psiThresh = parseFloat(document.getElementById('psiRange').value);
+  const sensitivity = parseFloat(document.getElementById('psiRange').value);
   const fnCost = parseFloat(document.getElementById('costRange').value);
 
   const scores = rows.map(r => parseFloat(r[scoreCol])).filter(v=>!isNaN(v));
@@ -522,13 +532,13 @@ function runDriftCheck(headers, rows){
   const featureCols = headers.filter(h => h!==scoreCol && h!==truthCol && !isNaN(parseFloat(rows[0]?.[h])));
   const chunkSize = Math.floor(scores.length / periods) || 1;
   const baseline = scores.slice(0, chunkSize);
-  let worstPsi = 0, lastRecall = null, firstRecall = null;
+  let worstScore = 0, lastRecall = null, firstRecall = null;
 
   for(let p=0;p<periods;p++){
     const chunk = scores.slice(p*chunkSize, (p+1)*chunkSize);
     if(chunk.length < 2) continue;
-    const chunkPsi = psi(baseline, chunk);
-    if(chunkPsi > worstPsi) worstPsi = chunkPsi;
+    const s = driftScore(baseline, chunk);
+    if(s > worstScore) worstScore = s;
     if(truths){
       const tChunk = truths.slice(p*chunkSize, (p+1)*chunkSize);
       const preds = chunk.map(s => s >= 0.5 ? 1 : 0);
@@ -540,44 +550,38 @@ function runDriftCheck(headers, rows){
     }
   }
 
-  // threshold sweep (cost-aware) if truth available
-  let bestThresh = 0.5;
-  if(truths){
-    let bestCost = Infinity;
-    for(let t=0.05; t<0.95; t+=0.05){
-      let fn=0, fp=0;
-      for(let i=0;i<scores.length;i++){
-        const pred = scores[i] >= t ? 1 : 0;
-        if(truths[i]===1 && pred===0) fn++;
-        if(truths[i]===0 && pred===1) fp++;
-      }
-      const cost = fn*fnCost + fp*5;
-      if(cost < bestCost){ bestCost = cost; bestThresh = t; }
-    }
-  }
-
-  const featurePsi = featureCols.map(f=>{
+  const featureShift = featureCols.map(f=>{
     const vals = rows.map(r=>parseFloat(r[f])).filter(v=>!isNaN(v));
     const base = vals.slice(0, chunkSize);
     const recent = vals.slice(-chunkSize);
-    return { name: f, psi: (base.length>1 && recent.length>1) ? psi(base, recent) : 0 };
-  }).sort((a,b)=>b.psi-a.psi).slice(0,5);
+    return { name: f, score: (base.length>1 && recent.length>1) ? driftScore(base, recent) : 0 };
+  }).sort((a,b)=>b.score-a.score);
 
-  const driftLevel = worstPsi >= psiThresh ? 'bad' : worstPsi >= psiThresh*0.6 ? 'warn' : 'ok';
+  const shiftedFeatures = featureShift.filter(f => f.score >= sensitivity);
+
+  const driftLevel = worstScore >= sensitivity ? 'bad' : worstScore >= sensitivity*0.6 ? 'warn' : 'ok';
+  const driftLabel = driftLevel === 'bad' ? 'Drifting' : driftLevel === 'warn' ? 'Early shift' : 'Stable';
   const recallLevel = lastRecall===null ? 'ok' : lastRecall < 0.6 ? 'bad' : lastRecall < 0.75 ? 'warn' : 'ok';
+  const recallTrend = (firstRecall!==null && lastRecall!==null)
+    ? (lastRecall < firstRecall - 0.03 ? 'Declining' : lastRecall > firstRecall + 0.03 ? 'Improving' : 'Stable')
+    : null;
 
   document.getElementById('resultGrid').innerHTML = `
-    <div class="result-cell"><div class="rlabel">Max PSI drift score</div><div class="rval ${driftLevel}">${worstPsi.toFixed(3)}</div></div>
-    <div class="result-cell"><div class="rlabel">Recall trend</div><div class="rval ${recallLevel}">${lastRecall===null?'n/a (no y_true)':(lastRecall*100).toFixed(1)+'%'}</div></div>
-    <div class="result-cell"><div class="rlabel">Recommended threshold</div><div class="rval ok">${bestThresh.toFixed(2)}</div></div>
+    <div class="result-cell"><div class="rlabel">Model stability</div><div class="rval ${driftLevel}">${driftLabel}</div></div>
+    <div class="result-cell"><div class="rlabel">Recall trend</div><div class="rval ${recallLevel}">${lastRecall===null?'n/a (no y_true)':recallTrend + ' — ' + (lastRecall*100).toFixed(0)+'%'}</div></div>
+    <div class="result-cell locked"><div class="rlabel">Optimized decision threshold</div><div class="rval">Calculated in a scoping call</div><div class="runlock" onclick="openModal()">See it on a call →</div></div>
     <div class="result-cell"><div class="rlabel">Rows analyzed</div><div class="rval ok">${scores.length.toLocaleString()}</div></div>
   `;
 
-  document.getElementById('featureList').innerHTML = '<div class="rlabel" style="margin-bottom:.5rem">Top unstable features (PSI, baseline vs. most recent period)</div>' +
-    featurePsi.map(f=>{
-      const lvl = f.psi >= psiThresh ? '#EF4444' : f.psi >= psiThresh*0.6 ? '#FFB85C' : '#14B8A9';
-      return `<div class="feature-row"><span class="fname">${f.name}</span><span class="fpsi" style="color:${lvl}">${f.psi.toFixed(3)}</span></div>`;
-    }).join('');
+  let featureHtml = '';
+  if(shiftedFeatures.length === 0){
+    featureHtml = '<div class="feature-summary">No individual feature shows a meaningful shift on its own — worth re-checking as more recent data comes in.</div>';
+  } else {
+    const names = shiftedFeatures.slice(0,5).map(f=>f.name).join(', ');
+    featureHtml = `<div class="feature-summary">${shiftedFeatures.length} feature${shiftedFeatures.length===1?'':'s'} showing meaningful shift, including <span class="fnames">${names}</span>.</div>
+    <span class="feature-cta" onclick="openModal()">See exactly how much each one moved, and what to do about it →</span>`;
+  }
+  document.getElementById('featureList').innerHTML = featureHtml;
 
   document.getElementById('toolResults').classList.add('show');
 }
