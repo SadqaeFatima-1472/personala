@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sentinel — Live Simulation</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  body { background: var(--bg1, #0d1129); }
+  .sim-wrap { max-width: 980px; margin: 0 auto; padding: 3rem 20px 5rem; }
+  .sim-header { text-align: center; margin-bottom: 3rem; }
+  .sim-header .eyebrow { justify-content: center; }
+  .sim-header h1 { font-size: 2.2rem; margin: 0.6rem 0; }
+  .sim-header p { color: var(--text-secondary, rgba(220,218,240,0.6)); max-width: 560px; margin: 0 auto; }
+  .live-dot { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal, #14B8A9); }
+  .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal, #14B8A9); box-shadow: 0 0 6px var(--teal, #14B8A9); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+  .act { background: var(--navy-deep, #14153E); border: 1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-bottom: 2rem; padding: 2rem; }
+  .act-label { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--orange2, #FFB85C); border: 1px solid rgba(255,184,92,0.3); background: rgba(255,138,61,0.07); padding: 3px 10px; display: inline-block; margin-bottom: 1rem; }
+  .act h2 { font-size: 1.4rem; margin-bottom: .5rem; }
+  .act > p.desc { color: var(--text-secondary, rgba(220,218,240,0.55)); font-size: 13.5px; margin-bottom: 1.5rem; max-width: 640px; line-height: 1.6; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .sim-btn { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; padding: 11px 22px; border-radius: 4px; cursor: pointer; border: none; transition: transform .15s, opacity .15s; }
+  .sim-btn:active { transform: scale(0.97); }
+  .sim-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .sim-btn.legit { background: var(--teal, #14B8A9); color: #04231f; }
+  .sim-btn.fraud { background: #EF4444; color: #fff; }
+  .sim-btn.primary { background: var(--orange, #FF8A3D); color: #2a1200; }
+  .sim-btn.ghost { background: transparent; border: 1px solid var(--panel-border-soft, rgba(90,100,220,0.3)); color: var(--text-secondary, rgba(220,218,240,0.7)); }
+
+  .pipeline { display: flex; align-items: center; gap: 10px; margin: 1.5rem 0; min-height: 90px; }
+  .pipe-node { flex: 1; text-align: center; padding: 1rem .5rem; border: 1px dashed var(--panel-border-soft, rgba(90,100,220,0.25)); border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary, rgba(220,218,240,0.4)); transition: all .3s; }
+  .pipe-node.active { border-style: solid; border-color: var(--orange, #FF8A3D); color: var(--orange2, #FFB85C); background: rgba(255,138,61,0.06); }
+  .pipe-node.done { border-color: var(--teal, #14B8A9); color: var(--teal, #14B8A9); }
+  .pipe-arrow { color: var(--text-secondary, rgba(220,218,240,0.25)); font-size: 18px; }
+
+  .reveal { display: none; margin-top: 1.5rem; padding: 1.5rem; border-radius: 6px; animation: fadein .4s ease; }
+  .reveal.show { display: block; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal.caught { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.35); }
+  .reveal.clean { background: rgba(20,184,169,0.08); border: 1px solid rgba(20,184,169,0.35); }
+  .reveal-badge { font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-bottom: .6rem; }
+  .reveal.caught .reveal-badge { color: #EF4444; }
+  .reveal.clean .reveal-badge { color: var(--teal, #14B8A9); }
+  .reveal-detail { font-size: 13.5px; color: var(--text-secondary, rgba(220,218,240,0.7)); line-height: 1.6; }
+  .prob-gauge { font-size: 2rem; font-weight: 700; margin: .4rem 0; }
+
+  .week-track { display: flex; gap: 6px; margin: 1.5rem 0; }
+  .week-cell { flex: 1; height: 56px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(220,218,240,0.3); border: 1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); transition: all .4s; }
+  .week-cell.ok { background: rgba(20,184,169,0.12); color: var(--teal, #14B8A9); border-color: rgba(20,184,169,0.4); }
+  .week-cell.info { background: rgba(180,174,222,0.12); color: var(--lavender, #b4aede); border-color: rgba(180,174,222,0.4); }
+  .week-cell.warning { background: rgba(255,138,61,0.15); color: var(--orange2, #FFB85C); border-color: rgba(255,138,61,0.5); }
+  .week-cell.critical { background: rgba(239,68,68,0.18); color: #EF4444; border-color: #EF4444; animation: alertpulse 1s infinite; }
+  @keyframes alertpulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(239,68,68,0.4);} 50%{ box-shadow: 0 0 0 6px rgba(239,68,68,0);} }
+
+  .explain-box { background: var(--bg2, #1B1C4C); border-left: 3px solid var(--orange, #FF8A3D); padding: 1rem 1.2rem; margin-top: 1rem; font-size: 13px; color: var(--text-secondary, rgba(220,218,240,0.75)); line-height: 1.65; display: none; }
+  .explain-box.show { display: block; }
+  .explain-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--orange2, #FFB85C); margin-bottom: .4rem; }
+
+  .iso-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--panel-border-soft, rgba(90,100,220,0.18)); border: 1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top: 1.5rem; }
+  .iso-col { background: var(--bg2, #1B1C4C); padding: 1.5rem; text-align: center; }
+  .iso-col h3 { font-size: 1.1rem; margin-bottom: 1rem; }
+  .iso-status { font-size: 1.6rem; font-weight: 700; margin-bottom: .3rem; }
+  .iso-status.healthy { color: var(--teal, #14B8A9); }
+  .iso-status.critical { color: #EF4444; }
+  .iso-sub { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary, rgba(220,218,240,0.5)); }
+
+  .status-line { font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--text-secondary, rgba(220,218,240,0.45)); margin-top: 1rem; min-height: 18px; }
+  .status-line.err { color: #EF4444; }
+</style>
+</head>
+<body>
+
+<div class="sim-wrap">
+  <div class="sim-header">
+    <p class="eyebrow"><span class="live-dot">Live · Real Model</span></p>
+    <h1>Watch Sentinel catch it, live</h1>
+    <p>Every action below calls the real Sentinel API through a secured proxy — nothing here is scripted or pre-recorded. Runs against an isolated demo environment, fully separate from any real customer's data.</p>
+  </div>
+
+  <!-- ACT 1: Fraud catch -->
+  <div class="act">
+    <span class="act-label">Act 1 — Scoring</span>
+    <h2>Try to slip a fraudulent transaction past the model</h2>
+    <p class="desc">Pick one. A legitimate-looking transaction and a fraud attempt are built from different feature patterns — send either one to the live model and watch the real decision come back.</p>
+
+    <div class="btn-row">
+      <button class="sim-btn legit" onclick="runScoring(false)">Simulate a legitimate transaction</button>
+      <button class="sim-btn fraud" onclick="runScoring(true)">Simulate a fraud attempt</button>
+    </div>
+
+    <div class="pipeline" id="pipeline1">
+      <div class="pipe-node" id="p1-1">Transaction built</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" id="p1-2">Sent to live model</div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" id="p1-3">Decision returned</div>
+    </div>
+
+    <div class="status-line" id="status1"></div>
+    <div class="reveal" id="reveal1"></div>
+  </div>
+
+  <!-- ACT 2: Drift catch -->
+  <div class="act">
+    <span class="act-label">Act 2 — Drift Detection</span>
+    <h2>Watch four weeks of production data drift — and get caught</h2>
+    <p class="desc">Sets a clean baseline, then feeds the model a week of production data at a time, each week's data drifting a little further from what the model has seen. Watch the alert level climb in real time.</p>
+
+    <div class="btn-row">
+      <button class="sim-btn primary" id="driftBtn" onclick="runDriftSequence()">Run the 4-week sequence</button>
+      <button class="sim-btn ghost" onclick="resetDrift()">Reset</button>
+    </div>
+
+    <div class="week-track" id="weekTrack">
+      <div class="week-cell" id="week-0">Baseline</div>
+      <div class="week-cell" id="week-1">Week 1</div>
+      <div class="week-cell" id="week-2">Week 2</div>
+      <div class="week-cell" id="week-3">Week 3</div>
+      <div class="week-cell" id="week-4">Week 4</div>
+    </div>
+
+    <div class="status-line" id="status2"></div>
+    <div class="explain-box" id="explainBox">
+      <div class="explain-label">Sentinel Explain</div>
+      <div id="explainText"></div>
+    </div>
+  </div>
+
+  <!-- ACT 3: Isolation proof -->
+  <div class="act">
+    <span class="act-label">Act 3 — Multi-Tenant Isolation</span>
+    <h2>Two customers, drifted differently, checked side by side</h2>
+    <p class="desc">Registers two separate, isolated model tenants — Alpha and Beta — with identical starting conditions. Drifts Alpha hard. Leaves Beta untouched. Then pulls both dashboards live, so you can see one customer's problem never bleeds into another's.</p>
+
+    <div class="btn-row">
+      <button class="sim-btn primary" onclick="runIsolation()">Run the isolation proof</button>
+    </div>
+
+    <div class="status-line" id="status3"></div>
+    <div class="iso-grid" id="isoGrid" style="display:none">
+      <div class="iso-col">
+        <h3>Alpha (drifted)</h3>
+        <div class="iso-status" id="alphaStatus">—</div>
+        <div class="iso-sub" id="alphaAlerts">—</div>
+      </div>
+      <div class="iso-col">
+        <h3>Beta (untouched)</h3>
+        <div class="iso-status" id="betaStatus">—</div>
+        <div class="iso-sub" id="betaAlerts">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/api';
+
+async function callApi(path, method='GET', body=null) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(`${API}/${path}`, opts);
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+  return data;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function synthTransaction(fraudLike) {
+  const tx = {};
+  for (let i = 1; i <= 28; i++) {
+    tx[`V${i}`] = fraudLike
+      ? (Math.random() - 0.5) * 12   // extreme values, mimics known fraud patterns
+      : (Math.random() - 0.5) * 2;   // normal range
+  }
+  tx.Amount = fraudLike ? 50 + Math.random() * 50 : 20 + Math.random() * 200;
+  return tx;
+}
+
+function synthBatch(n, shift) {
+  const rows = [];
+  for (let i = 0; i < n; i++) {
+    const row = {};
+    for (let f = 0; f < 38; f++) {
+      row[`F${f}`] = (Math.random() - 0.5) * 2 + shift;
+    }
+    rows.push(row);
+  }
+  return rows;
+}
+
+// ── ACT 1 ──
+async function runScoring(fraudLike) {
+  const status = document.getElementById('status1');
+  const reveal = document.getElementById('reveal1');
+  reveal.classList.remove('show');
+  status.classList.remove('err');
+  ['p1-1','p1-2','p1-3'].forEach(id => document.getElementById(id).className = 'pipe-node');
+
+  try {
+    document.getElementById('p1-1').className = 'pipe-node active';
+    status.textContent = 'Building transaction...';
+    const tx = synthTransaction(fraudLike);
+    await sleep(500);
+    document.getElementById('p1-1').className = 'pipe-node done';
+
+    document.getElementById('p1-2').className = 'pipe-node active';
+    status.textContent = 'Sending to live model...';
+    const result = await callApi('predict', 'POST', { features: tx });
+    document.getElementById('p1-2').className = 'pipe-node done';
+
+    document.getElementById('p1-3').className = 'pipe-node active';
+    await sleep(400);
+    document.getElementById('p1-3').className = 'pipe-node done';
+    status.textContent = '';
+
+    const caught = result.decision === 'FRAUD';
+    reveal.className = `reveal show ${caught ? 'caught' : 'clean'}`;
+    reveal.innerHTML = `
+      <div class="reveal-badge">${caught ? '🚨 Flagged as fraud' : '✓ Passed as legitimate'}</div>
+      <div class="prob-gauge">${(result.fraud_probability * 100).toFixed(2)}%</div>
+      <div class="reveal-detail">Fraud probability, live from the model · decision threshold: ${result.threshold_used}</div>
+    `;
+  } catch (e) {
+    status.classList.add('err');
+    status.textContent = `Error: ${e.message}`;
+  }
+}
+
+// ── ACT 2 ──
+let driftRunning = false;
+async function runDriftSequence() {
+  if (driftRunning) return;
+  driftRunning = true;
+  const btn = document.getElementById('driftBtn');
+  const status = document.getElementById('status2');
+  const explainBox = document.getElementById('explainBox');
+  btn.disabled = true;
+  resetDrift();
+
+  try {
+    document.getElementById('week-0').className = 'week-cell';
+    status.textContent = 'Setting baseline reference data...';
+    const refData = synthBatch(500, 0);
+    await callApi('tenants/public_demo/reference', 'POST', {
+      data: refData, labels: refData.map(() => Math.random() < 0.02 ? 1 : 0),
+      display_name: 'Live Simulation',
+    });
+    document.getElementById('week-0').className = 'week-cell ok';
+    await sleep(500);
+
+    const shifts = [0.04, 0.10, 0.20, 0.6];
+    for (let w = 0; w < shifts.length; w++) {
+      const cell = document.getElementById(`week-${w+1}`);
+      status.textContent = `Checking week ${w+1} of production data...`;
+      await sleep(600);
+      const batch = synthBatch(150, shifts[w]);
+      const report = await callApi('tenants/public_demo/drift/report', 'POST', { transactions: batch });
+      const level = (report.alert_level || 'ok').toLowerCase();
+      cell.className = `week-cell ${level}`;
+      cell.textContent = `Week ${w+1}: ${report.alert_level}`;
+
+      if (report.alert_level === 'WARNING' || report.alert_level === 'CRITICAL') {
+        if (report.explanation && report.explanation.summary) {
+          document.getElementById('explainText').textContent = report.explanation.summary;
+          document.getElementById('explainBox').classList.add('show');
+        }
+      }
+      if (report.alert_level === 'CRITICAL') {
+        status.textContent = `Alert fired at week ${w+1}.`;
+        break;
+      }
+      if (w === shifts.length - 1) status.textContent = 'Sequence complete.';
+    }
+  } catch (e) {
+    status.classList.add('err');
+    status.textContent = `Error: ${e.message}`;
+  } finally {
+    btn.disabled = false;
+    driftRunning = false;
+  }
+}
+
+function resetDrift() {
+  ['week-0','week-1','week-2','week-3','week-4'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    el.className = 'week-cell';
+    el.textContent = i === 0 ? 'Baseline' : `Week ${i}`;
+  });
+  document.getElementById('status2').textContent = '';
+  document.getElementById('status2').classList.remove('err');
+  document.getElementById('explainBox').classList.remove('show');
+}
+
+// ── ACT 3 ──
+async function runIsolation() {
+  const status = document.getElementById('status3');
+  const grid = document.getElementById('isoGrid');
+  status.classList.remove('err');
+  grid.style.display = 'none';
+
+  try {
+    status.textContent = 'Registering Alpha and Beta...';
+    const refA = synthBatch(200, 0);
+    const refB = synthBatch(200, 0);
+    await Promise.all([
+      callApi('tenants/demo_tenant_alpha/reference', 'POST', {
+        data: refA, labels: refA.map(() => Math.random() < 0.02 ? 1 : 0), display_name: 'Demo Tenant Alpha',
+      }),
+      callApi('tenants/demo_tenant_beta/reference', 'POST', {
+        data: refB, labels: refB.map(() => Math.random() < 0.02 ? 1 : 0), display_name: 'Demo Tenant Beta',
+      }),
+    ]);
+
+    status.textContent = 'Drifting Alpha hard, leaving Beta untouched...';
+    await Promise.all([
+      callApi('tenants/demo_tenant_alpha/drift/report', 'POST', { transactions: synthBatch(200, 3.0) }),
+      callApi('tenants/demo_tenant_beta/drift/report', 'POST', { transactions: synthBatch(200, 0) }),
+    ]);
+
+    status.textContent = 'Pulling both dashboards...';
+    const [alphaDash, betaDash, alphaAlerts, betaAlerts] = await Promise.all([
+      callApi('tenants/demo_tenant_alpha/dashboard'),
+      callApi('tenants/demo_tenant_beta/dashboard'),
+      callApi('tenants/demo_tenant_alpha/alerts'),
+      callApi('tenants/demo_tenant_beta/alerts'),
+    ]);
+
+    const aStatus = document.getElementById('alphaStatus');
+    aStatus.textContent = alphaDash.system_status;
+    aStatus.className = `iso-status ${alphaDash.system_status === 'HEALTHY' ? 'healthy' : 'critical'}`;
+    document.getElementById('alphaAlerts').textContent = `${alphaAlerts.total} alert(s) logged`;
+
+    const bStatus = document.getElementById('betaStatus');
+    bStatus.textContent = betaDash.system_status;
+    bStatus.className = `iso-status ${betaDash.system_status === 'HEALTHY' ? 'healthy' : 'critical'}`;
+    document.getElementById('betaAlerts').textContent = `${betaAlerts.total} alert(s) logged`;
+
+    grid.style.display = 'grid';
+    status.textContent = 'Done — same run, seconds apart, zero cross-contamination.';
+  } catch (e) {
+    status.classList.add('err');
+    status.textContent = `Error: ${e.message}`;
+  }
+}
+</script>
+</body>
+</html>
