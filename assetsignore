@@ -1,0 +1,21 @@
+# Wrangler's asset upload uses this file (same syntax as .gitignore) to
+# decide what NOT to serve as a public, downloadable static file, since
+# assets.directory in wrangler.jsonc is "." (the repo root) — your site
+# has no separate public/ folder, so without this file, your Worker's
+# own source code and this config would otherwise be servable at
+# strataforge3.com/src/worker.js, /wrangler.jsonc, etc.
+
+src
+functions
+wrangler.jsonc
+.assetsignore
+README.md
+*.docx
+
+.git
+.git/**
+.wrangler
+.wrangler/**
+node_modules
+node_modules/**
+.DS_Store
