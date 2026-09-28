@@ -1,67 +1,73 @@
-<nav class="sf-nav" aria-label="Main">
-  <div class="sf-bar">
-    <a href="index.html" class="sf-brand" aria-label="Strataforge3 — Home">
-      <img src="logo.png" alt="Strataforge3 Logo" width="32" height="32">
+<nav>
+  <div class="wrap">
+    <a href="index.html" class="nav-mark" aria-label="Strataforge3 — Home">
+      <img src="logo.png" alt="Strataforge3 Logo" class="nav-logo-img" width="32" height="32">
       <span class="wordmark">STRATAFORGE3</span>
     </a>
 
-    <button class="sf-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="sfLinks">
-      <svg width="20" height="20" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
-        <line x1="1" y1="4" x2="17" y2="4"/><line x1="1" y1="9" x2="17" y2="9"/><line x1="1" y1="14" x2="17" y2="14"/>
-      </svg>
-    </button>
-
-    <div class="sf-links" id="sfLinks">
+    <div class="nav-links" id="navLinks">
       <a href="index.html">Home</a>
 
-      <div class="sf-dd">
-        <button type="button" aria-expanded="false" aria-haspopup="true">Audit
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="auditMenu">
+          Audit
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="sf-menu">
-          <a href="audit-offer.html">Audit Offer</a>
-          <a href="process.html">Process</a>
-          <a href="pricing.html">Pricing</a>
+        <div class="nav-dropdown-menu" id="auditMenu" role="menu">
+          <a href="audit-offer.html" role="menuitem">Audit Offer</a>
+          <a href="process.html" role="menuitem">Process</a>
+          <a href="pricing.html" role="menuitem">Pricing</a>
         </div>
       </div>
 
-      <div class="sf-dd">
-        <button type="button" aria-expanded="false" aria-haspopup="true">Product
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="productMenu">
+          Product
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="sf-menu">
-          <a href="sentinel.html">Sentinel API</a>
-          <a href="simulation.html">Simulation / Live Demo</a>
+        <div class="nav-dropdown-menu" id="productMenu" role="menu">
+          <a href="sentinel.html" role="menuitem">Sentinel API</a>
+          <a href="simulation.html" role="menuitem">Simulation / Live Demo</a>
         </div>
       </div>
 
-      <div class="sf-dd">
-        <button type="button" aria-expanded="false" aria-haspopup="true">Research
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="researchMenu">
+          Research
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="sf-menu">
-          <a href="memo.html">Output Admissibility</a>
-          <a href="lifecycle-audit.html">Lifecycle Audit Trail</a>
-          <a href="case-study-fraud.html">Recall Decay Detection (ULB)</a>
-          <a href="Incident-Access-Governance.html">Incident Access Governance</a>
-          <a href="case-study-ieee.html">False-Alarm Resistance (IEEE-CIS)</a>
-          <a href="eu-ai-act.html">EU AI Act &amp; Governance</a>
+        <div class="nav-dropdown-menu" id="researchMenu" role="menu">
+          <a href="memo.html" role="menuitem">Output Admissibility</a>
+          <a href="lifecycle-audit.html" role="menuitem">Lifecycle Audit Trail</a>
+          <a href="case-study-fraud.html" role="menuitem">Recall Decay Detection (ULB)</a>
+          <a href="Incident-Access-Governance.html" role="menuitem">Incident Access Governance</a>
+          <a href="case-study-ieee.html" role="menuitem">False-Alarm Resistance (IEEE-CIS)</a>
+          <a href="eu-ai-act.html" role="menuitem">EU AI Act &amp; Governance</a>
         </div>
       </div>
 
-      <div class="sf-dd">
-        <button type="button" aria-expanded="false" aria-haspopup="true">Company
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true" aria-controls="companyMenu">
+          Company
           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <div class="sf-menu sf-right">
-          <a href="about.html">About</a>
-          <a href="blog.html">Medium News</a>
+        <div class="nav-dropdown-menu" id="companyMenu" role="menu">
+          <a href="about.html" role="menuitem">About</a>
+          <a href="blog.html" role="menuitem">Medium News</a>
         </div>
       </div>
 
       <a href="contact.html">Contact</a>
 
-      <a class="sf-cta" href="mailto:hello@strataforge3.com?subject=AI%20Production%20Risk%20Audit%20-%20Inquiry">Book an audit →</a>
+      <!-- Shown only on mobile, since .nav-cta is hidden there -->
+      <a href="mailto:hello@strataforge3.com?subject=AI%20Production%20Risk%20Audit%20-%20Inquiry" class="mobile-cta-link">Book an audit →</a>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="nav-cta" onclick="window.location.href='mailto:hello@strataforge3.com?subject=AI%20Production%20Risk%20Audit%20-%20Inquiry'">Book an audit →</button>
+      <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6"><line x1="1" y1="4" x2="17" y2="4"/><line x1="1" y1="9" x2="17" y2="9"/><line x1="1" y1="14" x2="17" y2="14"/></svg>
+      </button>
     </div>
   </div>
 </nav>
