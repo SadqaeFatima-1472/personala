@@ -4,8 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing — Strataforge3</title>
-<meta name="description" content="Fixed-fee AI Production Risk Audit pricing. $8,000-$15,000, two weeks, scoped before work begins.">
+<meta name="description" content="AI production risk audits from $20/month. Start small with a usage limit and move up as your usage grows.">
 <link rel="stylesheet" href="assets/styles.css">
+<style>
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+  .plan{display:flex;flex-direction:column;padding:28px 24px}
+  .plan.featured{border:1px solid #FF8A3D}
+  .plan .tag{font-size:11px;letter-spacing:.12em;color:var(--text-secondary);margin-bottom:10px}
+  .plan h3{margin:0 0 6px}
+  .plan .amt{font-size:34px;font-weight:700;margin:10px 0 2px}
+  .plan .amt span{font-size:14px;font-weight:400;color:var(--text-secondary)}
+  .plan .limit{font-size:13.5px;color:var(--text-secondary);margin-bottom:18px}
+  .plan ul{list-style:none;padding:0;margin:0 0 24px;flex:1}
+  .plan li{padding:8px 0;border-top:1px solid rgba(255,255,255,.08);font-size:14px;color:var(--text-secondary)}
+  .plan .btn-primary{width:100%}
+  @media(max-width:980px){.plans{grid-template-columns:1fr 1fr}}
+  @media(max-width:600px){.plans{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -26,14 +41,14 @@
   <polygon points="450,230 500,258 500,316 450,344 400,316 400,258" fill="url(#markGrad)" opacity="0.4"/>
 </svg>
 
-    <div id="nav-placeholder"></div>
+<div id="nav-placeholder"></div>
 
 <main>
   <section class="page-hero">
     <div class="wrap">
       <div class="eyebrow"><span class="dot"></span>PRICING</div>
-      <h1>One offer.<br>Fixed scope, <span class="accent">fixed fee.</span></h1>
-      <p class="page-sub">No tiers to compare, no hidden add-ons. The price depends on how complex the system is — confirmed after a short intake call, never after the work has started.</p>
+      <h1>Start at $20.<br>Grow as <span class="accent">you use it.</span></h1>
+      <p class="page-sub">Every plan has a clear monthly usage limit, so there are no surprise bills. Upgrade when you outgrow it, downgrade any time, cancel any time.</p>
     </div>
   </section>
 
@@ -41,14 +56,95 @@
 
   <section>
     <div class="wrap">
-      <div class="panel price-card">
-        <div class="price-left">
-          <h3>AI Production Risk Audit</h3>
-          <p>Four risk surfaces reviewed and scored, a ranked findings document, and a 60–90 minute debrief call — delivered in a fixed two-week window.</p>
+      <div class="plans">
+
+        <div class="panel plan">
+          <div class="tag">STARTER</div>
+          <h3>Solo &amp; side projects</h3>
+          <div class="amt">$20<span> / month</span></div>
+          <div class="limit">Up to 5 audit scans / month</div>
+          <ul>
+            <li>1 project</li>
+            <li>All four risk surfaces checked</li>
+            <li>Severity × likelihood scoring</li>
+            <li>Findings report with suggested fixes</li>
+            <li>Email support</li>
+          </ul>
+          <button class="btn-primary" onclick="window.location.href='contact.html'">Start for $20</button>
         </div>
-        <div class="price-right">
-          <div class="price-amount">$8,000<span> – $15,000</span></div>
-          <div class="price-note">two-week engagement, fixed fee</div>
+
+        <div class="panel plan featured">
+          <div class="tag">GROWTH · MOST POPULAR</div>
+          <h3>Small teams shipping AI</h3>
+          <div class="amt">$79<span> / month</span></div>
+          <div class="limit">Up to 30 audit scans / month</div>
+          <ul>
+            <li>Up to 3 projects</li>
+            <li>Everything in Starter</li>
+            <li>Re-scan on every release</li>
+            <li>Ranked findings &amp; change history</li>
+            <li>Priority email support</li>
+          </ul>
+          <button class="btn-primary" onclick="window.location.href='contact.html'">Choose Growth</button>
+        </div>
+
+        <div class="panel plan">
+          <div class="tag">SCALE</div>
+          <h3>Multiple AI features</h3>
+          <div class="amt">$249<span> / month</span></div>
+          <div class="limit">Up to 150 audit scans / month</div>
+          <ul>
+            <li>Up to 10 projects</li>
+            <li>Everything in Growth</li>
+            <li>Shared pipelines &amp; retrieval layer review</li>
+            <li>Team seats</li>
+            <li>Monthly 30-minute review call</li>
+          </ul>
+          <button class="btn-primary" onclick="window.location.href='contact.html'">Choose Scale</button>
+        </div>
+
+        <div class="panel plan">
+          <div class="tag">FULL AUDIT</div>
+          <h3>Expert-led review</h3>
+          <div class="amt">$8,000<span> – $15,000</span></div>
+          <div class="limit">One-time, two-week engagement</div>
+          <ul>
+            <li>Hands-on review by our team</li>
+            <li>Technical interview &amp; intake</li>
+            <li>Ranked findings document</li>
+            <li>60–90 minute walkthrough call</li>
+            <li>Remediation quoted separately</li>
+          </ul>
+          <button class="btn-primary" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">HOW USAGE WORKS</span>
+        <h2>You choose what happens at the limit.</h2>
+      </div>
+      <div class="surfaces" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="surface">
+          <span class="num">01</span>
+          <h3>Hard cap by default</h3>
+          <p>When you reach your monthly scan limit, scans pause. You are never charged more than your plan price unless you choose to be.</p>
+        </div>
+        <div class="surface">
+          <span class="num">02</span>
+          <h3>Top-up packs</h3>
+          <p>Need a few more this month? Add 10 extra scans for $10 without changing plans.</p>
+        </div>
+        <div class="surface">
+          <span class="num">03</span>
+          <h3>Upgrade when it makes sense</h3>
+          <p>If you keep hitting your limit, we'll suggest the next plan. Changes apply immediately and are prorated.</p>
         </div>
       </div>
     </div>
@@ -59,42 +155,20 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">WHAT SETS THE PRICE</span>
-        <h2>Complexity, not company size.</h2>
-        <p>The fee scales with how much there is to audit, not with how big the company is.</p>
+        <span class="kicker">COMPARE PLANS</span>
+        <h2>Everything side by side.</h2>
       </div>
-      <div class="surfaces" style="grid-template-columns:1fr 1fr;">
-        <div class="surface">
-          <span class="num">LOWER RANGE</span>
-          <h3>One AI feature</h3>
-          <p>A single AI-powered feature with a contained data flow — for example, one support assistant or one internal copilot, with one or two integrations to review.</p>
-        </div>
-        <div class="surface">
-          <span class="num">UPPER RANGE</span>
-          <h3>Multiple integrated pipelines</h3>
-          <p>Several AI features sharing infrastructure, data sources, or a retrieval layer — more surface area to review, more interactions between systems to trace.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider">
-
-  <section>
-    <div class="wrap">
-      <div class="section-head">
-        <span class="kicker">WHAT'S INCLUDED</span>
-        <h2>Everything needed to act, nothing you'll need to chase down later.</h2>
-      </div>
-      <div class="panel" style="padding:8px 0;">
-        <table class="score-table" style="padding:0 36px;">
+      <div class="panel" style="padding:8px 0; overflow-x:auto;">
+        <table class="score-table" style="padding:0 36px; min-width:560px;">
           <tbody>
-            <tr><td style="width:60%; color:var(--text-primary);">Structured intake + one technical interview</td><td style="color:var(--text-secondary);">Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Review across all four risk surfaces</td><td style="color:var(--text-secondary);">Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Every finding scored — severity × likelihood</td><td style="color:var(--text-secondary);">Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Ranked findings document with recommended fixes</td><td style="color:var(--text-secondary);">Included</td></tr>
-            <tr><td style="color:var(--text-primary);">60–90 minute walkthrough call</td><td style="color:var(--text-secondary);">Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Remediation of findings</td><td style="color:var(--text-secondary);">Scoped &amp; quoted separately</td></tr>
+            <tr><td style="width:34%;"></td><td><b>Starter</b></td><td><b>Growth</b></td><td><b>Scale</b></td></tr>
+            <tr><td style="color:var(--text-primary);">Price</td><td>$20/mo</td><td>$79/mo</td><td>$249/mo</td></tr>
+            <tr><td style="color:var(--text-primary);">Scans per month</td><td>5</td><td>30</td><td>150</td></tr>
+            <tr><td style="color:var(--text-primary);">Projects</td><td>1</td><td>3</td><td>10</td></tr>
+            <tr><td style="color:var(--text-primary);">Four risk surfaces</td><td>Included</td><td>Included</td><td>Included</td></tr>
+            <tr><td style="color:var(--text-primary);">Re-scan on release</td><td>—</td><td>Included</td><td>Included</td></tr>
+            <tr><td style="color:var(--text-primary);">Team seats</td><td>1</td><td>3</td><td>10</td></tr>
+            <tr><td style="color:var(--text-primary);">Review call</td><td>—</td><td>—</td><td>Monthly</td></tr>
           </tbody>
         </table>
         <div style="height:28px;"></div>
@@ -104,9 +178,9 @@
 
   <section class="cta-section">
     <div class="wrap">
-      <h2>Get a price specific to your system.</h2>
-      <p>A short intake call is enough to confirm exactly where in the range you land.</p>
-      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
+      <h2>Not sure which plan fits?</h2>
+      <p>Start on Starter for $20 and move up when you need to. Or book a short call if you'd like an expert-led audit.</p>
+      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="window.location.href='contact.html'">Get started</button>
     </div>
   </section>
 </main>
