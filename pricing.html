@@ -4,21 +4,36 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing — Strataforge3</title>
-<meta name="description" content="AI production risk audits from $20/month. Start small with a usage limit and move up as your usage grows.">
+<meta name="description" content="Strataforge3 AI Risk Audit (fixed-fee, $8,000–$15,000) to evaluate an AI system, and Sentinel (from $20/month) to monitor models in production.">
 <link rel="stylesheet" href="assets/styles.css">
 <style>
-  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;align-items:stretch}
+  .two-up{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .product{padding:36px}
+  .product .tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;color:var(--orange);text-transform:uppercase;margin-bottom:12px;display:block}
+  .product h3{font-size:24px;margin-bottom:6px}
+  .product .verb{font-size:16px;color:var(--text-primary);margin-bottom:14px}
+  .product p{font-size:14.5px;color:var(--text-secondary);line-height:1.65;margin-bottom:14px}
+  .product .meta{font-family:var(--mono);font-size:12.5px;color:var(--text-tertiary);border-top:1px solid var(--panel-border-soft);padding-top:14px;margin-top:6px}
+  .product .meta b{color:var(--orange-hi);font-weight:500}
+  .surfaces.cols3{grid-template-columns:1fr}
+  @media(min-width:861px){.surfaces.cols3{grid-template-columns:repeat(3,1fr)}}
+  .surface.fee{background:var(--panel-raised);display:flex;flex-direction:column;justify-content:center}
+  .surface.fee .big{font-family:var(--mono);font-size:30px;color:var(--text-primary);margin:6px 0}
+  .surface.fee .big span{font-size:15px;color:var(--text-tertiary)}
+  .plans{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
   .plan{display:flex;flex-direction:column;padding:28px 24px}
-  .plan.featured{border:1px solid #FF8A3D}
-  .plan .tag{font-size:11px;letter-spacing:.12em;color:var(--text-secondary);margin-bottom:10px}
-  .plan h3{margin:0 0 6px}
-  .plan .amt{font-size:34px;font-weight:700;margin:10px 0 2px}
-  .plan .amt span{font-size:14px;font-weight:400;color:var(--text-secondary)}
-  .plan .limit{font-size:13.5px;color:var(--text-secondary);margin-bottom:18px}
-  .plan ul{list-style:none;padding:0;margin:0 0 24px;flex:1}
-  .plan li{padding:8px 0;border-top:1px solid rgba(255,255,255,.08);font-size:14px;color:var(--text-secondary)}
-  .plan .btn-primary{width:100%}
-  @media(max-width:980px){.plans{grid-template-columns:1fr 1fr}}
+  .plan.featured{border-color:var(--orange)}
+  .plan .tag{font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text-tertiary);margin-bottom:10px}
+  .plan h3{font-size:18px;margin-bottom:4px}
+  .plan .amt{font-family:var(--mono);font-size:30px;margin:12px 0 2px}
+  .plan .amt span{font-size:13px;color:var(--text-tertiary)}
+  .plan .limit{font-size:13px;color:var(--text-secondary);margin-bottom:18px}
+  .plan ul{list-style:none;flex:1;margin-bottom:22px}
+  .plan li{padding:9px 0;border-top:1px solid var(--panel-border-soft);font-size:13.5px;color:var(--text-secondary)}
+  .plan .btn-primary,.plan .btn-secondary{justify-content:center;width:100%}
+  .note{font-size:13px;color:var(--text-tertiary);margin-top:18px}
+  @media(max-width:1024px){.plans{grid-template-columns:1fr 1fr}}
+  @media(max-width:860px){.two-up{grid-template-columns:1fr}}
   @media(max-width:600px){.plans{grid-template-columns:1fr}}
 </style>
 </head>
@@ -47,8 +62,12 @@
   <section class="page-hero">
     <div class="wrap">
       <div class="eyebrow"><span class="dot"></span>PRICING</div>
-      <h1>Start at $20.<br>Grow as <span class="accent">you use it.</span></h1>
-      <p class="page-sub">Every plan has a clear monthly usage limit, so there are no surprise bills. Upgrade when you outgrow it, downgrade any time, cancel any time.</p>
+      <h1>Know where your AI will fail <span class="accent">before production does.</span></h1>
+      <p class="page-sub">Two products, one standard. An expert-led audit to evaluate an AI system, and Sentinel to keep watching it once it's live.</p>
+      <div class="hero-row">
+        <button class="btn-primary" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
+        <a class="btn-ghost" href="#sentinel">See Sentinel plans ↓</a>
+      </div>
     </div>
   </section>
 
@@ -56,33 +75,90 @@
 
   <section>
     <div class="wrap">
-      <div class="plans">
+      <div class="section-head">
+        <span class="kicker">TWO PRODUCTS</span>
+        <h2>Evaluate a system. Then monitor it.</h2>
+      </div>
+      <div class="two-up">
+        <div class="panel product">
+          <span class="tag">Strataforge3 AI Risk Audit</span>
+          <h3>Evaluate an AI system</h3>
+          <div class="verb">A point-in-time, expert-led review.</div>
+          <p>Our team reviews a system you've built across four risk surfaces and tells you what is broken, how bad it is, and what to fix first.</p>
+          <p>Best for: before a launch, a customer security review, or a board or auditor question.</p>
+          <div class="meta"><b>$8,000–$15,000</b> · two weeks · fixed fee</div>
+        </div>
+        <div class="panel product">
+          <span class="tag">Sentinel</span>
+          <h3>Monitor AI models in production</h3>
+          <div class="verb">Continuous, automated checks.</div>
+          <p>Sentinel re-evaluates your live models on a schedule, flags degradation as it happens, and keeps a timestamped evidence record.</p>
+          <p>Best for: models already in production that need to keep performing and stay documented.</p>
+          <div class="meta"><b>From $20/month</b> · usage-based plans</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <hr class="divider">
+
+  <section id="audit">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">AI RISK AUDIT</span>
+        <h2>Exactly what you receive for $8,000–$15,000.</h2>
+        <p>Five deliverables, written for the person who has to act on them.</p>
+      </div>
+      <div class="surfaces cols3">
+        <div class="surface"><span class="num">01</span><h3>Executive risk summary</h3><p>A one-page view of overall risk and the decisions that need an owner, readable without technical background.</p></div>
+        <div class="surface"><span class="num">02</span><h3>Ranked findings</h3><p>Every finding scored by severity × likelihood and ordered, so you know what to fix first.</p></div>
+        <div class="surface"><span class="num">03</span><h3>Evidence</h3><p>What we looked at and what we observed behind each finding, so nothing rests on opinion.</p></div>
+        <div class="surface"><span class="num">04</span><h3>Recommended fixes</h3><p>A concrete, prioritised fix for every finding. Remediation work itself is scoped and quoted separately.</p></div>
+        <div class="surface"><span class="num">05</span><h3>Final walkthrough</h3><p>A 60–90 minute call with your team to go through the findings and answer questions.</p></div>
+        <div class="surface fee">
+          <span class="num">FIXED FEE</span>
+          <div class="big">$8,000<span> – $15,000</span></div>
+          <p>Two-week engagement, scoped on a short intake call before any work begins.</p>
+        </div>
+      </div>
+      <p class="note">Where you land in the range depends on complexity, not company size: one contained AI feature sits toward the lower end; several integrated pipelines sharing data or a retrieval layer sit toward the upper end.</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="sentinel">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">SENTINEL PLANS</span>
+        <h2>Monitor production models. Pay for what you run.</h2>
+        <p>Every plan has a monthly scan limit, so there are no surprise bills. Upgrade or downgrade any time.</p>
+      </div>
+
+      <div class="plans">
         <div class="panel plan">
           <div class="tag">STARTER</div>
-          <h3>Solo &amp; side projects</h3>
+          <h3>One model in production</h3>
           <div class="amt">$20<span> / month</span></div>
-          <div class="limit">Up to 5 audit scans / month</div>
+          <div class="limit">5 scans / month</div>
           <ul>
-            <li>1 project</li>
-            <li>All four risk surfaces checked</li>
-            <li>Severity × likelihood scoring</li>
-            <li>Findings report with suggested fixes</li>
+            <li>1 model or endpoint</li>
+            <li>Severity-scored results</li>
+            <li>Evidence record for each scan</li>
             <li>Email support</li>
           </ul>
-          <button class="btn-primary" onclick="window.location.href='contact.html'">Start for $20</button>
+          <button class="btn-secondary" onclick="window.location.href='contact.html'">Start on Starter</button>
         </div>
 
         <div class="panel plan featured">
           <div class="tag">GROWTH · MOST POPULAR</div>
           <h3>Small teams shipping AI</h3>
           <div class="amt">$79<span> / month</span></div>
-          <div class="limit">Up to 30 audit scans / month</div>
+          <div class="limit">30 scans / month</div>
           <ul>
-            <li>Up to 3 projects</li>
-            <li>Everything in Starter</li>
-            <li>Re-scan on every release</li>
-            <li>Ranked findings &amp; change history</li>
+            <li>Up to 3 models or endpoints</li>
+            <li>Scheduled scans</li>
+            <li>Change history between scans</li>
             <li>Priority email support</li>
           </ul>
           <button class="btn-primary" onclick="window.location.href='contact.html'">Choose Growth</button>
@@ -92,33 +168,32 @@
           <div class="tag">SCALE</div>
           <h3>Multiple AI features</h3>
           <div class="amt">$249<span> / month</span></div>
-          <div class="limit">Up to 150 audit scans / month</div>
+          <div class="limit">150 scans / month</div>
           <ul>
-            <li>Up to 10 projects</li>
-            <li>Everything in Growth</li>
-            <li>Shared pipelines &amp; retrieval layer review</li>
+            <li>Up to 10 models or endpoints</li>
             <li>Team seats</li>
+            <li>Alerts when a score crosses a threshold</li>
             <li>Monthly 30-minute review call</li>
           </ul>
-          <button class="btn-primary" onclick="window.location.href='contact.html'">Choose Scale</button>
+          <button class="btn-secondary" onclick="window.location.href='contact.html'">Choose Scale</button>
         </div>
 
         <div class="panel plan">
-          <div class="tag">FULL AUDIT</div>
-          <h3>Expert-led review</h3>
-          <div class="amt">$8,000<span> – $15,000</span></div>
-          <div class="limit">One-time, two-week engagement</div>
+          <div class="tag">ENTERPRISE</div>
+          <h3>Regulated &amp; multi-system</h3>
+          <div class="amt">Custom</div>
+          <div class="limit">Volume agreed with you</div>
           <ul>
-            <li>Hands-on review by our team</li>
-            <li>Technical interview &amp; intake</li>
-            <li>Ranked findings document</li>
-            <li>60–90 minute walkthrough call</li>
-            <li>Remediation quoted separately</li>
+            <li>Multiple AI systems and teams</li>
+            <li>Regulated or high-risk workloads</li>
+            <li>Custom integrations</li>
+            <li>Security review and custom terms</li>
+            <li>Full Audit can be bundled in</li>
           </ul>
-          <button class="btn-primary" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
+          <button class="btn-secondary" onclick="window.location.href='contact.html'">Talk to us</button>
         </div>
-
       </div>
+      <p class="note">Need a few more scans in a month? Add 10 scans for $10 without changing plans. At your limit, scans pause by default, so you're never charged more than your plan.</p>
     </div>
   </section>
 
@@ -127,25 +202,14 @@
   <section>
     <div class="wrap">
       <div class="section-head">
-        <span class="kicker">HOW USAGE WORKS</span>
-        <h2>You choose what happens at the limit.</h2>
+        <span class="kicker">WHAT IS A SCAN?</span>
+        <h2>One scan = one evaluation run of one model.</h2>
+        <p>Each scan evaluates a single model or endpoint against your baseline and thresholds.</p>
       </div>
-      <div class="surfaces" style="grid-template-columns:1fr 1fr 1fr;">
-        <div class="surface">
-          <span class="num">01</span>
-          <h3>Hard cap by default</h3>
-          <p>When you reach your monthly scan limit, scans pause. You are never charged more than your plan price unless you choose to be.</p>
-        </div>
-        <div class="surface">
-          <span class="num">02</span>
-          <h3>Top-up packs</h3>
-          <p>Need a few more this month? Add 10 extra scans for $10 without changing plans.</p>
-        </div>
-        <div class="surface">
-          <span class="num">03</span>
-          <h3>Upgrade when it makes sense</h3>
-          <p>If you keep hitting your limit, we'll suggest the next plan. Changes apply immediately and are prorated.</p>
-        </div>
+      <div class="surfaces cols3">
+        <div class="surface"><span class="num">YOU PROVIDE</span><h3>A batch from production</h3><p>Recent inputs and outputs from one live model, or a connected endpoint to sample from.</p></div>
+        <div class="surface"><span class="num">SENTINEL CHECKS</span><h3>Whether it still holds up</h3><p>Drift against baseline, recall decay, false-alarm rate, and output reliability against your thresholds.</p></div>
+        <div class="surface"><span class="num">YOU RECEIVE</span><h3>A scored result and record</h3><p>A severity-scored result, what changed since the last scan, and a timestamped evidence record.</p></div>
       </div>
     </div>
   </section>
@@ -154,42 +218,25 @@
 
   <section>
     <div class="wrap">
-      <div class="section-head">
-        <span class="kicker">COMPARE PLANS</span>
-        <h2>Everything side by side.</h2>
-      </div>
-      <div class="panel" style="padding:8px 0; overflow-x:auto;">
-        <table class="score-table" style="padding:0 36px; min-width:560px;">
-          <tbody>
-            <tr><td style="width:34%;"></td><td><b>Starter</b></td><td><b>Growth</b></td><td><b>Scale</b></td></tr>
-            <tr><td style="color:var(--text-primary);">Price</td><td>$20/mo</td><td>$79/mo</td><td>$249/mo</td></tr>
-            <tr><td style="color:var(--text-primary);">Scans per month</td><td>5</td><td>30</td><td>150</td></tr>
-            <tr><td style="color:var(--text-primary);">Projects</td><td>1</td><td>3</td><td>10</td></tr>
-            <tr><td style="color:var(--text-primary);">Four risk surfaces</td><td>Included</td><td>Included</td><td>Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Re-scan on release</td><td>—</td><td>Included</td><td>Included</td></tr>
-            <tr><td style="color:var(--text-primary);">Team seats</td><td>1</td><td>3</td><td>10</td></tr>
-            <tr><td style="color:var(--text-primary);">Review call</td><td>—</td><td>—</td><td>Monthly</td></tr>
-          </tbody>
-        </table>
-        <div style="height:28px;"></div>
+      <div class="panel" style="padding:32px 36px;">
+        <span class="kicker">A NOTE ON COMPLIANCE</span>
+        <p style="color:var(--text-secondary);font-size:15px;line-height:1.7;max-width:760px;">Sentinel and the AI Risk Audit help teams organize and document evidence relevant to requirements such as the EU AI Act and DORA. They do not certify compliance and are not legal advice. Whether a system meets a regulation is a determination for you and your legal or compliance advisers.</p>
       </div>
     </div>
   </section>
 
   <section class="cta-section">
     <div class="wrap">
-      <h2>Not sure which plan fits?</h2>
-      <p>Start on Starter for $20 and move up when you need to. Or book a short call if you'd like an expert-led audit.</p>
-      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="window.location.href='contact.html'">Get started</button>
+      <h2>Not sure which one you need?</h2>
+      <p>A 20-minute call is enough to tell whether an audit, Sentinel, or both make sense for what you've built.</p>
+      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
     </div>
   </section>
 </main>
 
-<footer>
-     <div id="footer-placeholder"></div>
-     <script src="assets/component-loader.js"></script>
-</footer>
+<div id="footer-placeholder"></div>
 
+<script src="assets/component-loader.js"></script>
 <script src="assets/site.js"></script>
 </body>
 </html>
