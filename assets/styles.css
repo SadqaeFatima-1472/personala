@@ -76,12 +76,9 @@ img,svg{display:block; max-width:100%;}
 }
 
 /* ============================================
-   NAV — single consolidated block.
-   This is the ONLY nav-related CSS in the file.
-   Do not add another .nav / .nav-dropdown / .nav-links /
-   .nav-mark / .nav-cta / .nav-toggle / .mobile-cta-link
-   rule anywhere else in this stylesheet — duplicates are
-   what caused the dropdown bug before.
+   NAV — REPLACEMENT BLOCK for assets/styles.css
+   Replace everything from the "NAV — single consolidated block"
+   comment down to (but not including) "/* ---------- Page shell ---------- */"
    ============================================ */
 
 nav{
@@ -92,22 +89,18 @@ nav{
 }
 nav .wrap{
   display:flex; align-items:center; justify-content:space-between; height:78px;
-  gap: 24px;
+  gap: 24px; max-width: 1240px;
 }
 
-/* Logo / wordmark */
 .nav-mark{ display:flex; align-items:center; gap:12px; flex-shrink:0; text-decoration:none; }
 .nav-mark svg,
-.nav-mark .nav-logo-img{
-  width:32px; height:32px; flex-shrink:0; object-fit:contain; display:block;
-}
+.nav-mark .nav-logo-img{ width:32px; height:32px; flex-shrink:0; object-fit:contain; display:block; }
 .nav-mark .wordmark{
   font-family:var(--serif); font-weight:700; font-size:18px;
   letter-spacing:0.5px; color:var(--text-primary); white-space:nowrap;
 }
 
-/* Link row */
-.nav-links{ display:flex; align-items:center; gap:32px; }
+.nav-links{ display:flex; align-items:center; gap:26px; margin-left:auto; }
 .nav-links a{
   font-size:14px; font-weight:500; color:var(--text-secondary);
   transition:color .15s; position:relative; white-space:nowrap;
@@ -118,8 +111,10 @@ nav .wrap{
   content:''; position:absolute; bottom:-26px; left:0; right:0; height:2px;
   background: linear-gradient(90deg, var(--orange), var(--crimson));
 }
+/* no underline bar on items inside dropdown panels */
+.nav-dropdown-menu a.active::after{ display:none; }
+.nav-dropdown-menu a.active{ color:var(--orange-hi); }
 
-/* CTA button */
 .nav-cta{
   border:1px solid var(--panel-border); background:rgba(255,138,61,0.06); color:var(--text-primary);
   padding:10px 20px; border-radius:7px; font-size:14px; font-weight:600; cursor:pointer;
@@ -128,39 +123,31 @@ nav .wrap{
 }
 .nav-cta:hover{ border-color:var(--orange); background:rgba(255,138,61,0.14); transform:translateY(-1px); }
 
-/* Mobile-only elements — hidden on desktop by default */
 .nav-toggle{ display:none; }
 .mobile-cta-link{ display:none; }
 
-/* ---------- Research dropdown ---------- */
+/* ---------- Dropdowns (Audit / Product / Research / Company) ---------- */
 .nav-dropdown{ position: relative; }
 .nav-dropdown-toggle{
   background:none; border:none; cursor:pointer; font-family:var(--sans);
   font-size:14px; font-weight:500; color:var(--text-secondary);
   display:inline-flex; align-items:center; gap:6px; padding:4px 0; transition:color .15s;
 }
-.nav-dropdown-toggle:hover, .nav-dropdown-toggle.active{ color:var(--text-primary); }
+.nav-dropdown-toggle:hover, .nav-dropdown-toggle.active, .nav-dropdown.open .nav-dropdown-toggle{ color:var(--text-primary); }
 .nav-dropdown-toggle svg{ stroke:currentColor; transition: transform .15s ease; transform-origin:center; }
 .nav-dropdown.open .nav-dropdown-toggle svg{ transform: rotate(180deg); }
 
-/* !important guarantees nothing else in the cascade can silently
-   re-enable/disable this, even if another rule sneaks back in later. */
 .nav-dropdown-menu{
   display:none !important;
   position:absolute; top:calc(100% + 16px); left:50%; transform:translateX(-50%);
-  min-width:220px; background:var(--panel-raised); border:1px solid var(--panel-border-soft);
+  min-width:230px; background:var(--panel-raised); border:1px solid var(--panel-border-soft);
   border-radius:10px; padding:8px; box-shadow:0 16px 32px rgba(0,0,0,0.35); z-index:1001;
 }
+.nav-dropdown-menu::before{ content:""; position:absolute; top:-16px; left:0; right:0; height:16px; }
 
-/* Invisible bridge — keeps the menu open while the cursor crosses
-   the 16px gap between the toggle and the panel on hover */
-.nav-dropdown-menu::before{
-  content:""; position:absolute; top:-16px; left:0; right:0; height:16px;
-}
-
-/* Opens on hover (desktop) or .open class (click / keyboard, both sizes) */
-@media (min-width: 861px){
+@media (min-width: 1025px){
   .nav-dropdown:hover .nav-dropdown-menu{ display:block !important; }
+  .nav-dropdown:hover .nav-dropdown-toggle{ color:var(--text-primary); }
   .nav-dropdown:hover .nav-dropdown-toggle svg{ transform: rotate(180deg); }
 }
 .nav-dropdown.open .nav-dropdown-menu{ display:block !important; }
@@ -171,8 +158,8 @@ nav .wrap{
 }
 .nav-dropdown-menu a:hover{ background:rgba(255,138,61,0.08); color:var(--text-primary); }
 
-/* ---------- Nav — Mobile ---------- */
-@media (max-width: 860px){
+/* ---------- Nav — Mobile / tablet (hamburger below 1025px) ---------- */
+@media (max-width: 1024px){
   nav .wrap{ height:70px; padding: 0 20px; }
   .nav-mark .wordmark{ font-size:14px; }
   .nav-mark svg, .nav-mark .nav-logo-img{ width:26px; height:26px; }
@@ -180,9 +167,10 @@ nav .wrap{
   .nav-cta{ display:none; }
 
   .nav-links{
-    position:fixed; top:70px; left:0; right:0; background:var(--navy-deep);
+    position:fixed; top:70px; left:0; right:0; margin-left:0; background:var(--navy-deep);
     flex-direction:column; align-items:flex-start; padding:24px 20px; gap:20px;
     border-bottom:1px solid var(--panel-border-soft);
+    max-height:calc(100vh - 70px); overflow-y:auto;
     transform:translateY(-130%); transition:transform .25s ease; z-index:999;
     box-shadow:0 12px 24px rgba(0,0,0,0.3);
   }
@@ -196,13 +184,12 @@ nav .wrap{
     cursor:pointer; color:var(--text-primary); flex-shrink:0;
   }
 
-  .mobile-cta-link{
+  .nav-links a.mobile-cta-link{
     display:inline-flex; margin-top:4px;
     background: linear-gradient(135deg, var(--orange) 0%, var(--crimson) 100%);
     color:#1A0E04; font-weight:700; font-size:14.5px; padding:12px 22px; border-radius:8px;
   }
 
-  /* Dropdown collapses inline into the stacked mobile menu instead of floating */
   .nav-dropdown{ width:100%; }
   .nav-dropdown-toggle{ width:100%; justify-content:space-between; font-size:14.5px; }
   .nav-dropdown-menu{
@@ -212,6 +199,7 @@ nav .wrap{
     min-width:0; width:100%;
   }
   .nav-dropdown-menu::before{ display:none; }
+  .nav-dropdown-menu a{ white-space:normal; }
 }
 
 /* ---------- Page shell ---------- */
