@@ -30,7 +30,6 @@
 .layer-card p { font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; margin-bottom:.8rem; }
 .layer-features { list-style:none; }
 .layer-features li { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); padding:.2rem 0; display:flex; align-items:flex-start; gap:6px; line-height:1.4; }
-.layer-badge-soon { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:rgba(220,218,240,0.45); border:1px solid rgba(220,218,240,0.2); padding:1px 7px; border-radius:3px; margin-left:8px; vertical-align:middle; }
 
 /* Diffs & Before/After */
 .diff-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.6rem; }
@@ -39,23 +38,6 @@
 .vs-them { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:rgba(239,68,68,0.65); margin-bottom:.35rem; text-decoration:line-through; }
 .vs-us { font-size:14px; font-weight:600; color:var(--teal, #14B8A9); margin-bottom:.45rem; }
 .diff-card p { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; }
-
-.ba { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.4rem; }
-.ba-col { padding:1.5rem; }
-.ba-col.before { background:rgba(239,68,68,0.03); }
-.ba-col.after  { background:rgba(255,138,61,0.04); }
-.ba-head { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:.9rem; }
-.ba-head.before { color:#EF4444; }
-.ba-head.after  { color:var(--orange2, #FFB85C); }
-.ba-item { display:flex; align-items:flex-start; gap:6px; margin-bottom:.55rem; font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.5; }
-.x-icon    { color:#EF4444; flex-shrink:0; font-size:11px; }
-.check-icon { color:var(--orange2, #FFB85C); flex-shrink:0; font-size:11px; }
-
-/* Timeline & Banners */
-.eu-banner { background:rgba(232,176,32,0.05); border:1px solid rgba(232,176,32,0.2); padding:1.1rem 1.4rem; margin-top:1.6rem; display:flex; gap:1.1rem; align-items:flex-start; }
-.eu-icon { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold, #E8B020); background:rgba(232,176,32,0.08); border:1px solid rgba(232,176,32,0.22); padding:3px 9px; flex-shrink:0; white-space:nowrap; margin-top:2px; }
-.eu-banner h4 { font-size:14px; font-weight:600; margin-bottom:.25rem; }
-.eu-banner p  { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; }
 
 .timeline { position:relative; padding:1.4rem 0; }
 .timeline::before { content:''; position:absolute; left:15px; top:0; bottom:0; width:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); }
@@ -66,7 +48,6 @@
 .tl-content p  { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.55; }
 .tag-alert { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:#EF4444; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); padding:2px 6px; margin-bottom:.2rem; }
 
-/* API Block (now teaser, not a code sample) */
 .api-teaser { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); padding:1.6rem 1.7rem; margin-top:1.4rem; border-top:2px solid var(--orange, #FF8A3D); }
 .api-teaser p { font-size:13.5px; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
 .api-teaser p + p { margin-top: .8rem; }
@@ -75,7 +56,6 @@
 .api-cap-label { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--orange, #FF8A3D); margin-bottom:.35rem; }
 .api-cap p { font-size:12px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.5; }
 
-/* Modal */
 .modal-overlay { position:fixed; inset:0; z-index:2000; background:rgba(14,15,46,0.92); backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:center; padding:1.5rem; }
 .modal { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); width:100%; max-width:560px; max-height:92vh; overflow-y:auto; position:relative; border-top:2px solid var(--orange, #FF8A3D); }
 .modal-head { padding:1.5rem 1.6rem 1rem; border-bottom:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); }
@@ -89,16 +69,12 @@
 .form-row input,.form-row select,.form-row textarea { width:100%; background:var(--navy-deep, #14153E); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); color:var(--text-primary, #F6F5F2); font-family:'Inter',sans-serif; font-size:13.5px; padding:.52rem .8rem; transition:border-color .2s; outline:none; }
 .form-row input:focus,.form-row select:focus,.form-row textarea:focus { border-color:var(--orange, #FF8A3D); }
 .form-row textarea { resize:vertical; min-height:84px; }
-.checkboxes { display:flex; flex-direction:column; gap:.45rem; }
-.checkbox-item { display:flex; align-items:center; gap:.5rem; font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.55)); cursor:pointer; }
-.checkbox-item input[type="checkbox"] { accent-color:var(--orange, #FF8A3D); width:13px; height:13px; cursor:pointer; }
 .modal-foot { padding:.9rem 1.6rem 1.25rem; border-top:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
 .modal-foot-note { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(220,218,240,0.22); }
 .form-success { padding:2.25rem 1.6rem; text-align:center; }
 .form-success h4 { font-family:var(--serif, serif); font-size:1.3rem; margin-bottom:.45rem; }
 .form-success p  { font-size:13.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.65; }
 
-/* Free Drift Health Check tool */
 .tool-panel { background:var(--navy-deep, #14153E); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.6rem; padding:1.8rem; border-top:2px solid var(--teal, #14B8A9); }
 .tool-badge { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal, #14B8A9); background:rgba(20,184,169,0.08); border:1px solid rgba(20,184,169,0.25); padding:3px 9px; margin-bottom:1rem; }
 .dropzone { border:1.5px dashed rgba(90,100,220,0.35); background:var(--bg2, #1B1C4C); padding:2.2rem 1.5rem; text-align:center; cursor:pointer; transition:border-color .2s, background .2s; margin-top:1rem; }
@@ -128,7 +104,6 @@
 .feature-cta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--orange2, #FFB85C); margin-top:.6rem; text-decoration:underline; cursor:pointer; display:inline-block; }
 
 @media (max-width: 640px) {
-  .ba { grid-template-columns:1fr; }
   .layer-grid,.diff-grid { grid-template-columns:1fr; }
 }
 </style>
@@ -144,11 +119,9 @@
   </defs>
 </svg>
 
-<!-- Header dynamic placeholder -->
 <div id="nav-placeholder"></div>
 
 <main>
-  <!-- Hero -->
   <section class="hero" style="min-height: 85vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem 20px; position: relative;">
     <div class="wrap" style="position: relative; z-index: 1;">
       <p class="eyebrow"><span class="dot"></span>Strataforge3 · Sentinel · Production AI Observability</p>
@@ -158,7 +131,7 @@
 
       <div class="hero-row" style="margin-bottom: 2rem;">
         <button class="btn-primary" onclick="openModal()">Get a custom quote →</button>
-        <a href="contact.html" class="btn-ghost" style="border-color: var(--teal, #14B8A9); color: var(--teal, #14B8A9);">Book a scoping call ↗</a>
+        <a href="pricing.html#sentinel" class="btn-ghost" style="border-color: var(--teal, #14B8A9); color: var(--teal, #14B8A9);">See Sentinel plans →</a>
       </div>
 
       <div class="stat-strip">
@@ -171,7 +144,6 @@
 
   <hr class="divider">
 
-  <!-- Free Drift Health Check Tool -->
   <section id="free-tool" class="section">
     <div class="wrap">
       <div class="section-head">
@@ -218,7 +190,6 @@
 
   <hr class="divider">
 
-  <!-- Three layers -->
   <section class="section">
     <div class="wrap">
       <div class="section-head">
@@ -253,13 +224,14 @@
           </ul>
         </div>
         <div class="layer-card">
-          <div class="layer-tag explain">Sentinel Explain <span class="layer-badge-soon">In development</span></div>
+          <div class="layer-tag explain">Sentinel Explain</div>
           <h3>Why the model decided what it decided</h3>
           <div class="layer-tagline explain">Turning "the model flagged it" into an answer you can give a customer.</div>
-          <p>A plain-language reason behind every alert — so when a customer or regulator asks why a decision was made, you have a real answer instead of a shrug. Ask us where this stands for your use case.</p>
+          <p>A plain-language reason behind every alert, live today — which feature moved, by how much, and whether the shift is statistically real or just noise. When a customer or regulator asks why a decision was made, you have a real answer instead of a shrug.</p>
           <ul class="layer-features">
-            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Plain-language reasons behind every alert</li>
-            <li><span style="color:#14B8A9;flex-shrink:0">○</span> Built directly from what already drives your model's decisions</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Plain-language reasons behind every alert</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Built directly from what already drives your model's decisions</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Runs on every check by default — nothing extra to enable</li>
           </ul>
         </div>
       </div>
@@ -268,7 +240,6 @@
 
   <hr class="divider">
 
-  <!-- Differentiation -->
   <section id="why-sentinel" class="section">
     <div class="wrap">
       <div class="section-head">
@@ -314,7 +285,6 @@
 
   <hr class="divider">
 
-  <!-- Problem / Timeline -->
   <section class="section">
     <div class="wrap">
       <div class="section-head">
@@ -334,7 +304,6 @@
 
   <hr class="divider">
 
-  <!-- API (teaser, not documentation) -->
   <section id="api-access" class="section">
     <div class="wrap">
       <div class="section-head">
@@ -356,20 +325,17 @@
     </div>
   </section>
 
-  <!-- CTA -->
   <section class="cta-section">
     <div class="wrap">
       <h2>Do you know if your model<br>still works today?</h2>
-      <p>A 15-minute scoping call is enough to find out whether a Sentinel audit is relevant for your stack.</p>
+      <p>A 15-minute scoping call is enough to find out whether a Sentinel audit is relevant for your stack. See <a href="pricing.html#sentinel" style="color:var(--teal,#14B8A9);text-decoration:underline;">Sentinel plans and pricing</a> first if you'd rather look before you talk.</p>
       <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="openModal()">Get a custom quote →</button>
     </div>
   </section>
 </main>
 
-<!-- Footer dynamic placeholder -->
 <div id="footer-placeholder"></div>
 
-<!-- Quote Modal -->
 <div class="modal-overlay" id="quoteModal" style="display:none" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div id="modalContent">
@@ -453,11 +419,6 @@ function updateSensitivityLabel(val){
   document.getElementById('psiVal').textContent = label;
 }
 
-/* ── Free Drift Health Check — all client-side, no network calls ──
-   Note: internal method names (the exact statistical test, exact
-   threshold formula) are intentionally not surfaced in the UI copy —
-   results are shown as plain-language status, not raw scores, so the
-   tool demonstrates value without documenting the mechanism. */
 const dz = document.getElementById('dropzone');
 ['dragover','dragleave','drop'].forEach(evt=>{
   dz.addEventListener(evt, e=>{
@@ -524,7 +485,6 @@ function runDriftCheck(headers, rows){
 
   const periods = parseInt(document.getElementById('periodsRange').value, 10);
   const sensitivity = parseFloat(document.getElementById('psiRange').value);
-  const fnCost = parseFloat(document.getElementById('costRange').value);
 
   const scores = rows.map(r => parseFloat(r[scoreCol])).filter(v=>!isNaN(v));
   const truths = truthCol ? rows.map(r => parseFloat(r[truthCol])).filter(v=>!isNaN(v)) : null;
