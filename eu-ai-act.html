@@ -4,36 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EU AI Act Compliance for Fraud & Credit AI — Strataforge Sentinel</title>
-<meta name="description" content="Credit scoring and fraud detection AI are high-risk under the EU AI Act. Sentinel produces the Articles 9–17 documentation in 5–7 days, without system access.">
+<meta name="description" content="Credit scoring AI is high-risk under the EU AI Act, and some fraud detection systems may be too. Sentinel helps produce supporting documentation for Articles 9–17 in 5–7 days, without system access.">
 
 <!-- FIX: external stylesheet link moved out of <style> and above it, with an absolute path so it resolves correctly regardless of route (e.g. /eu-ai-act) -->
 <link rel="stylesheet" href="/assets/styles.css">
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-:root{
+.page{
   --bg:#14153E;--bg2:#1B1C4C;--bg3:#22245A;
   --border:rgba(90,100,220,0.18);--text:#F6F5F2;--muted:rgba(220,218,240,0.55);--dim:rgba(220,218,240,0.28);
   --orange:#FF8A3D;--orange2:#FFB85C;--crimson:#C2342A;
   --teal:#14B8A9;--gold:#E8B020;--red:#EF4444;--blue:#6270F0;--blue2:#8490FF;
   --sans:'Inter',-apple-system,sans-serif;--mono:'JetBrains Mono',monospace;--serif:'Playfair Display',serif;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
+.page,.page *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-a{color:inherit;text-decoration:none;}
-::selection{background:var(--crimson);color:#fff;}
-
-.nodes{position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:radial-gradient(circle,rgba(180,185,255,0.07) 1px,transparent 1.5px);
-  background-size:54px 54px;mask-image:radial-gradient(ellipse 900px 600px at 80% 8%,black 0%,transparent 70%);}
-.hex{position:fixed;top:0;right:0;width:520px;height:520px;pointer-events:none;z-index:0;opacity:.9;}
+body{overflow-x:hidden;}
+.page{font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased;}
+.page a{color:inherit;text-decoration:none;}
 
 .page{max-width:860px;margin:0 auto;padding:3.5rem 32px 6rem;position:relative;z-index:1;}
 .eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem;display:flex;align-items:center;gap:8px;}
 .eyebrow::before{content:'';width:18px;height:1px;background:var(--gold);}
-h1{font-family:var(--serif);font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.1;margin-bottom:1rem;}
-h1 em{font-style:italic;color:var(--orange2);}
+.page h1{font-family:var(--serif);font-size:clamp(1.9rem,4.5vw,3rem);line-height:1.1;margin-bottom:1rem;}
+.page h1 em{font-style:italic;color:var(--orange2);}
 .body{font-size:15px;line-height:1.78;color:var(--muted);margin-bottom:1rem;}
 .body strong{color:var(--text);font-weight:600;}
 hr.div{border:none;border-top:1px solid var(--border);margin:2rem 0;}
@@ -42,7 +37,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:2rem 0;}
 .sec-label.orange{color:var(--orange);}
 .sec-label.teal{color:var(--teal);}
 .sec-label.blue{color:var(--blue2);}
-h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem;}
+.page h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem;}
 
 /* Deadline hero */
 .deadline-hero{background:rgba(232,176,32,0.06);border:1px solid rgba(232,176,32,0.22);border-radius:14px;padding:2rem;margin-bottom:2rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;}
@@ -172,13 +167,27 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
 </style>
 </head>
 <body>
-<div class="nodes"></div>
-<svg class="hex" viewBox="0 0 520 520" fill="none">
-  <defs><linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF8A3D"/><stop offset="100%" stop-color="#C2342A"/></linearGradient></defs>
-  <polygon points="440,30 498,63 498,131 440,164 382,131 382,63" fill="url(#hg)" opacity=".88"/>
-  <polygon points="358,78 408,106 408,162 358,190 308,162 308,106" fill="url(#hg)" opacity=".55"/>
-  <polygon points="460,154 518,187 518,254 460,287 402,254 402,187" fill="url(#hg)" opacity=".7"/>
-  <polygon points="378,214 425,240 425,295 378,321 331,295 331,240" fill="url(#hg)" opacity=".4"/>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A3D"/>
+      <stop offset="100%" stop-color="#C2342A"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="ambient-nodes"></div>
+<svg class="ambient-hex" viewBox="0 0 620 620" fill="none">
+  <polygon points="520,40 580,75 580,145 520,180 460,145 460,75" fill="url(#markGrad)" opacity="0.85"/>
+  <polygon points="430,90 480,118 480,176 430,204 380,176 380,118" fill="url(#markGrad)" opacity="0.55"/>
+  <polygon points="540,170 600,205 600,275 540,310 480,275 480,205" fill="url(#markGrad)" opacity="0.7"/>
+  <polygon points="450,230 500,258 500,316 450,344 400,316 400,258" fill="url(#markGrad)" opacity="0.4"/>
+  <g stroke="#9B9DC7" stroke-width="0.6" opacity="0.18">
+    <line x1="520" y1="110" x2="430" y2="150"/>
+    <line x1="430" y1="150" x2="540" y2="240"/>
+    <line x1="540" y1="240" x2="450" y2="280"/>
+    <line x1="520" y1="110" x2="540" y2="240"/>
+  </g>
 </svg>
 
 <div id="nav-placeholder"></div>
@@ -186,22 +195,22 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
 <div class="page">
 
   <p class="eyebrow">EU AI Act · Compliance Guide for Financial AI</p>
-  <h1>Your fraud and credit AI is<br><em>almost certainly</em> in scope.</h1>
-  <p class="body">The EU AI Act classifies credit scoring, AML risk profiling, and most fraud detection AI as high-risk systems. High-risk means documented, monitored, and auditable — before you deploy, not after an incident. Strataforge Sentinel produces the technical documentation Articles 9–17 require, in 5–7 days, without system access.</p>
+  <h1>Your credit and fraud AI may well be<br><em>in scope.</em></h1>
+  <p class="body">The EU AI Act classifies credit scoring as high-risk, and some AML and fraud-related systems can fall in scope depending on what they do. High-risk means documented, monitored, and auditable, and that documentation takes time to build. Strataforge Sentinel helps produce supporting documentation for Articles 9–17 in 5–7 days, without system access.</p>
 
   <!-- Deadline hero -->
   <div class="deadline-hero">
     <div>
-      <h2>August 2, 2026 — the original compliance date</h2>
-      <p>High-risk AI system obligations under Articles 9–17 have been the target date for financial services firms since the Act entered into force on August 1, 2024. Most compliance teams are treating this as the operative deadline regardless of the Omnibus extension, since the extension has not yet been formally enacted into law.</p>
+      <h2>December 2, 2027 — the new compliance date for credit scoring AI</h2>
+      <p>The Digital Omnibus on AI was formally adopted in June 2026. It moved the deadline for standalone high-risk systems under Annex III, including credit scoring, from August 2, 2026 to December 2, 2027. The obligations were postponed, not removed. The documentation, monitoring and evidence they require take months to build, so teams that start now have time to do it properly.</p>
       <div class="omnibus-note">
         <span style="color:var(--blue);flex-shrink:0;margin-top:1px;">ⓘ</span>
-        <div><strong>Omnibus update (May 7, 2026):</strong> A provisional political agreement defers standalone Annex III high-risk obligations to December 2, 2027 — subject to formal adoption expected before August 2026. Prudent planning still treats August 2026 as binding. A delay that has not been formally adopted is not a delay you can rely on in front of a regulator.</div>
+        <div><strong>Omnibus update (June 2026):</strong> The European Parliament approved the Digital Omnibus on AI on June 16, 2026, and the Council gave final approval on June 29, 2026. Other parts of the Act, such as the transparency duties and the prohibited-practices rules, are not covered by this delay.</div>
       </div>
     </div>
     <div class="deadline-box">
-      <div class="deadline-num">Aug<br>2026</div>
-      <div class="deadline-label">Active compliance target</div>
+      <div class="deadline-num">Dec<br>2027</div>
+      <div class="deadline-label">High-risk deadline (Annex III)</div>
     </div>
   </div>
 
@@ -214,7 +223,7 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
     <div class="extra-flag">Extraterritorial</div>
     <div>
       <h4>Jurisdiction follows the user, not the company</h4>
-      <p>Article 2 applies the EU AI Act to any provider whose AI system is used in the EU or whose output affects EU residents — regardless of where the company is registered. GCC fintechs, South Asian lenders, and US fraud-detection providers all carry obligations if their AI touches EU-resident data or decisions.</p>
+      <p>Article 2 applies the EU AI Act to any provider whose AI system is used in the EU or whose output affects EU residents — regardless of where the company is registered. GCC fintechs, South Asian lenders, and US fraud-detection providers may all carry obligations if their AI touches EU-resident data or decisions.</p>
     </div>
   </div>
 
@@ -338,13 +347,13 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
 
   <!-- What Sentinel produces -->
   <span class="sec-label teal">What Sentinel produces</span>
-  <h2>The documentation you need. In 5–7 days.</h2>
+  <h2>Supporting documentation for Articles 9–17. In 5–7 days.</h2>
   <p class="body">Sentinel produces the <strong>technical documentation, monitoring evidence, and explainability outputs</strong> that Articles 9–17 require you to have — the things your compliance team, legal team, and regulator will ask for.</p>
 
   <div class="deliverable-list">
     <div class="del-row"><div class="del-art">Art. 9</div><div class="del-content"><h4>Risk management system documentation</h4><p>Continuous risk identification and mitigation record — recall decay, feature drift signals, alert history, and corrective action log.</p></div><div class="del-status">✓ Included</div></div>
     <div class="del-row"><div class="del-art">Art. 11</div><div class="del-content"><h4>Technical documentation package</h4><p>Model architecture, training configuration, feature set, threshold selection rationale, and production performance record — sufficient for regulatory review.</p></div><div class="del-status">✓ Included</div></div>
-    <div class="del-row"><div class="del-art">Art. 12</div><div class="del-content"><h4>Automated audit trail</h4><p>Production period logs with timestamped performance metrics, alert triggers, and threshold events — DORA-aligned and suitable for post-hoc regulatory investigation.</p></div><div class="del-status">✓ Included</div></div>
+    <div class="del-row"><div class="del-art">Art. 12</div><div class="del-content"><h4>Automated audit trail</h4><p>Production period logs with timestamped performance metrics, alert triggers, and threshold events — designed to support DORA-related evidence and post-hoc regulatory review.</p></div><div class="del-status">✓ Included</div></div>
     <div class="del-row"><div class="del-art">Art. 13</div><div class="del-content"><h4>Explainability outputs</h4><p>Feature attribution per decision, counterfactual explanations, and plain-language executive summary — transparency your deployers and regulators need.</p></div><div class="del-status">✓ Included</div></div>
     <div class="del-row"><div class="del-art">Art. 15</div><div class="del-content"><h4>Performance monitoring evidence</h4><p>ROC-AUC, recall, precision, and PSI trends across production periods — documented, timestamped, benchmarked against validated baseline at deployment.</p></div><div class="del-status">✓ Included</div></div>
     <div class="del-row"><div class="del-art">Art. 17</div><div class="del-content"><h4>Quality management documentation</h4><p>Threshold selection and optimisation record, retraining triggers, human oversight checkpoints, and corrective action framework.</p></div><div class="del-status">✓ Included</div></div>
@@ -352,15 +361,15 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
 
   <div class="callout note">
     <div class="cl">◈ DORA overlap</div>
-    <p>For financial institutions, the EU AI Act sits alongside DORA (applies from January 2025). DORA requires ICT risk management, incident reporting, and third-party risk oversight. <strong>Sentinel's audit trail and monitoring documentation satisfies obligations under both frameworks</strong> — one engagement, two regulatory footprints covered.</p>
+    <p>For financial institutions, the EU AI Act sits alongside DORA (applies from January 2025). DORA requires ICT risk management, incident reporting, and third-party risk oversight. <strong>Sentinel's audit trail and monitoring documentation can serve as supporting evidence under both frameworks</strong> — it supports your compliance work and does not satisfy either framework on its own.</p>
   </div>
 
   <hr class="div">
 
   <!-- Case studies -->
   <span class="sec-label teal">Proven methodology</span>
-  <h2>Two independent case studies. Real numbers.</h2>
-  <p class="body">The documentation Sentinel produces is grounded in a validated observability methodology — not a template. Two published case studies on public datasets demonstrate the monitoring approach that underlies every audit engagement.</p>
+  <h2>Two case studies on public datasets. Real numbers.</h2>
+  <p class="body">The documentation Sentinel produces is grounded in a validated observability methodology — not a template. Two case studies on public datasets demonstrate the monitoring approach that underlies every audit engagement.</p>
 
   <div class="cs-cards">
     <a href="case-study-fraud.html" class="cs-card c1">
@@ -409,7 +418,7 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
   </div>
 
   <div class="bottom-cta">
-    <h2>The documentation gap is fixable in 5–7 days.</h2>
+    <h2>Start closing the documentation gap in 5–7 days.</h2>
     <p>Articles 9–17 technical documentation, monitoring evidence, and explainability outputs — without system access, without downtime, and without a six-month engagement.</p>
     <div class="cta-row">
       <button class="btn-pr" onclick="window.location.href='mailto:hello@strataforge3.com?subject=EU%20AI%20Act%20Compliance%20-%20Sentinel%20Documentation'">Get the documentation →</button>
@@ -422,6 +431,7 @@ h2{font-family:var(--serif);font-size:1.6rem;line-height:1.2;margin-bottom:.8rem
 
 <div id="footer-placeholder"></div>
 
-<script src="assets/component-loader.js"></script>
+<script src="/assets/component-loader.js"></script>
+<script src="/assets/site.js"></script>
 </body>
 </html>
