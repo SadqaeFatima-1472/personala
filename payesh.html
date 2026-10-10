@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Strataforge PAYESH — Production AI Observability</title>
+<meta name="description" content="Know the moment your fraud, credit, or claims-scoring model starts making worse decisions — and hand your compliance team the paperwork before the regulator asks.">
+<link rel="stylesheet" href="assets/styles.css">
+
+<style>
+/* ── PAYESH Page Specific Styles ── */
+.nav-payesh { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--orange2, #FFB85C); letter-spacing: 0.06em; margin-left: 4px; border: 1px solid rgba(255,184,92,0.3); padding: 2px 7px; border-radius: 4px; }
+.live-dot { display: inline-flex; align-items: center; gap: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--teal, #14B8A9); }
+.live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--teal, #14B8A9); box-shadow: 0 0 6px var(--teal, #14B8A9); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+
+/* Layer Cards */
+.layer-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.6rem; }
+.layer-card { background:var(--navy-deep, #14153E); padding:1.5rem; transition:background .2s; }
+.layer-card:hover { background:var(--bg2, #1B1C4C); }
+.layer-tag { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; padding:2px 8px; border:1px solid; display:inline-block; margin-bottom:.8rem; }
+.layer-tag.detect  { color:var(--orange2, #FFB85C);  border-color:rgba(255,184,92,0.3);  background:rgba(255,138,61,0.07); }
+.layer-tag.explain { color:var(--teal, #14B8A9);     border-color:rgba(20,184,169,0.3);  background:rgba(20,184,169,0.07); }
+.layer-tag.govern  { color:var(--gold, #E8B020);     border-color:rgba(232,176,32,0.3);  background:rgba(232,176,32,0.07); }
+.layer-card h3 { font-size:15.5px; font-weight:600; margin-bottom:4px; }
+.layer-tagline { font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.08em; font-style:italic; margin-bottom:.6rem; }
+.layer-tagline.detect  { color:var(--orange2, #FFB85C); }
+.layer-tagline.explain { color:var(--teal, #14B8A9); }
+.layer-tagline.govern  { color:var(--gold, #E8B020); }
+.layer-card p { font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; margin-bottom:.8rem; }
+.layer-features { list-style:none; }
+.layer-features li { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); padding:.2rem 0; display:flex; align-items:flex-start; gap:6px; line-height:1.4; }
+
+/* Name meaning strip */
+.name-strip { margin-top:1.8rem; display:flex; align-items:center; gap:1.4rem; flex-wrap:wrap; padding:1rem 1.2rem; border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); background:var(--bg2, #1B1C4C); max-width:620px; }
+.name-strip .fa { font-family:'Noto Naskh Arabic','Amiri','Tahoma',serif; font-size:2rem; color:var(--orange2, #FFB85C); line-height:1; direction:rtl; }
+.name-strip .pr { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.08em; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
+.name-strip .pr b { color:var(--text-primary, #F6F5F2); font-weight:500; }
+
+/* Diffs & Before/After */
+.diff-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.6rem; }
+.diff-card { background:var(--navy-deep, #14153E); padding:1.4rem; transition:background .2s; }
+.diff-card:hover { background:var(--bg2, #1B1C4C); }
+.vs-them { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:rgba(239,68,68,0.65); margin-bottom:.35rem; text-decoration:line-through; }
+.vs-us { font-size:14px; font-weight:600; color:var(--teal, #14B8A9); margin-bottom:.45rem; }
+.diff-card p { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; }
+
+.timeline { position:relative; padding:1.4rem 0; }
+.timeline::before { content:''; position:absolute; left:15px; top:0; bottom:0; width:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); }
+.tl-item { display:flex; gap:1.4rem; margin-bottom:1.5rem; align-items:flex-start; }
+.tl-dot { width:30px; height:30px; border-radius:50%; border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); background:var(--bg2, #1B1C4C); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--orange2, #FFB85C); position:relative; z-index:1; }
+.tl-dot.alert { border-color:#EF4444; color:#EF4444; background:rgba(239,68,68,0.08); }
+.tl-content h4 { font-size:13.5px; font-weight:600; margin-bottom:3px; }
+.tl-content p  { font-size:12.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.55; }
+.tag-alert { display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:#EF4444; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); padding:2px 6px; margin-bottom:.2rem; }
+
+.api-teaser { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); padding:1.6rem 1.7rem; margin-top:1.4rem; border-top:2px solid var(--orange, #FF8A3D); }
+.api-teaser p { font-size:13.5px; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
+.api-teaser p + p { margin-top: .8rem; }
+.api-caps { display:grid; grid-template-columns:repeat(auto-fit,minmax(185px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); border-top:none; }
+.api-cap { background:var(--navy-deep, #14153E); padding:1rem 1.1rem; }
+.api-cap-label { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--orange, #FF8A3D); margin-bottom:.35rem; }
+.api-cap p { font-size:12px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.5; }
+
+.modal-overlay { position:fixed; inset:0; z-index:2000; background:rgba(14,15,46,0.92); backdrop-filter:blur(12px); display:flex; align-items:center; justify-content:center; padding:1.5rem; }
+.modal { background:var(--bg2, #1B1C4C); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); width:100%; max-width:560px; max-height:92vh; overflow-y:auto; position:relative; border-top:2px solid var(--orange, #FF8A3D); }
+.modal-head { padding:1.5rem 1.6rem 1rem; border-bottom:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); }
+.modal-head h3 { font-family:var(--serif, serif); font-size:1.5rem; }
+.modal-head p  { font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.55)); margin-top:.25rem; line-height:1.6; }
+.modal-close { position:absolute; top:.9rem; right:1.1rem; background:transparent; border:none; color:var(--text-secondary, rgba(220,218,240,0.55)); font-size:1rem; cursor:pointer; transition:color .2s; }
+.modal-close:hover { color:var(--text-primary, #F6F5F2); }
+.modal-body { padding:1.25rem 1.6rem; }
+.form-row { margin-bottom:.9rem; }
+.form-row label { display:block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-secondary, rgba(220,218,240,0.55)); margin-bottom:.35rem; }
+.form-row input,.form-row select,.form-row textarea { width:100%; background:var(--navy-deep, #14153E); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); color:var(--text-primary, #F6F5F2); font-family:'Inter',sans-serif; font-size:13.5px; padding:.52rem .8rem; transition:border-color .2s; outline:none; }
+.form-row input:focus,.form-row select:focus,.form-row textarea:focus { border-color:var(--orange, #FF8A3D); }
+.form-row textarea { resize:vertical; min-height:84px; }
+.modal-foot { padding:.9rem 1.6rem 1.25rem; border-top:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+.modal-foot-note { font-family:'JetBrains Mono',monospace; font-size:10px; color:rgba(220,218,240,0.22); }
+.form-success { padding:2.25rem 1.6rem; text-align:center; }
+.form-success h4 { font-family:var(--serif, serif); font-size:1.3rem; margin-bottom:.45rem; }
+.form-success p  { font-size:13.5px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.65; }
+
+.tool-panel { background:var(--navy-deep, #14153E); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1.6rem; padding:1.8rem; border-top:2px solid var(--teal, #14B8A9); }
+.tool-badge { display:inline-flex; align-items:center; gap:6px; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--teal, #14B8A9); background:rgba(20,184,169,0.08); border:1px solid rgba(20,184,169,0.25); padding:3px 9px; margin-bottom:1rem; }
+.dropzone { border:1.5px dashed rgba(90,100,220,0.35); background:var(--bg2, #1B1C4C); padding:2.2rem 1.5rem; text-align:center; cursor:pointer; transition:border-color .2s, background .2s; margin-top:1rem; }
+.dropzone:hover, .dropzone.dragover { border-color:var(--teal, #14B8A9); background:rgba(20,184,169,0.04); }
+.dropzone .dz-icon { font-size:1.8rem; margin-bottom:.5rem; }
+.dropzone .dz-main { font-size:14px; font-weight:600; margin-bottom:.3rem; }
+.dropzone .dz-sub { font-size:12px; color:var(--text-secondary, rgba(220,218,240,0.55)); line-height:1.6; }
+.tool-controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1.4rem; }
+.tool-controls .form-row label { display:flex; justify-content:space-between; }
+.tool-controls input[type="range"] { width:100%; accent-color:var(--teal, #14B8A9); }
+.tool-note { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--text-secondary, rgba(220,218,240,0.4)); margin-top:1.1rem; display:flex; align-items:center; gap:6px; }
+.tool-results { margin-top:1.6rem; display:none; }
+.tool-results.show { display:block; }
+.result-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:1px; background:var(--panel-border-soft, rgba(90,100,220,0.18)); border:1px solid var(--panel-border-soft, rgba(90,100,220,0.18)); margin-top:1rem; }
+.result-cell { background:var(--bg2, #1B1C4C); padding:1.1rem 1.2rem; }
+.result-cell .rlabel { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-secondary, rgba(220,218,240,0.5)); margin-bottom:.4rem; }
+.result-cell .rval { font-size:1.4rem; font-weight:600; }
+.result-cell .rval.ok { color:var(--teal, #14B8A9); }
+.result-cell .rval.warn { color:var(--orange2, #FFB85C); }
+.result-cell .rval.bad { color:#EF4444; }
+.result-cell.locked { position:relative; }
+.result-cell.locked .rval { font-size:1rem; color: var(--text-secondary, rgba(220,218,240,0.5)); }
+.result-cell.locked .runlock { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--orange2, #FFB85C); margin-top:.3rem; cursor:pointer; text-decoration:underline; }
+.feature-list { margin-top:1rem; }
+.feature-summary { font-size:13px; color:var(--text-secondary, rgba(220,218,240,0.6)); line-height:1.7; }
+.feature-summary .fnames { color:var(--text-primary, #F6F5F2); font-weight:600; }
+.feature-cta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--orange2, #FFB85C); margin-top:.6rem; text-decoration:underline; cursor:pointer; display:inline-block; }
+
+@media (max-width: 640px) {
+  .layer-grid,.diff-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A3D"/>
+      <stop offset="100%" stop-color="#C2342A"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div id="nav-placeholder"></div>
+
+<main>
+  <section class="hero" style="min-height: 85vh; display: flex; flex-direction: column; justify-content: center; padding: 4rem 20px; position: relative;">
+    <div class="wrap" style="position: relative; z-index: 1;">
+      <p class="eyebrow"><span class="dot"></span>Strataforge3 · PAYESH · Production AI Observability</p>
+      <h1>Your model was accurate<br>on day one. <span class="accent">Is it still?</span></h1>
+      <div class="tagline" style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal, #14B8A9); margin-bottom:1.6rem; padding:.45rem 0; border-top:1px solid rgba(20,184,169,0.2); border-bottom:1px solid rgba(20,184,169,0.2); max-width:560px;">For fraud, credit, AML, insurance, churn, and content-moderation teams running scoring models</div>
+      <p class="page-sub" style="max-width: 620px;">Every model that outputs a score or a flag — a fraud check, a credit decision, a claim getting escalated, a customer marked as likely to churn — quietly gets worse after deployment as the world it was trained on shifts underneath it. Usually nobody notices until the losses show up in the numbers. PAYESH watches the model itself, tells you the moment its decisions start drifting off, and keeps the audit trail your compliance team needs ready before a regulator ever asks for it.</p>
+
+      <div class="name-strip">
+        <span class="fa" lang="fa" dir="rtl">پایش</span>
+        <span class="pr"><b>PAYESH</b> · pah-YESH<br>Persian for continuous watching: monitoring that never switches off.</span>
+      </div>
+
+      <div class="hero-row" style="margin: 2rem 0;">
+        <button class="btn-primary" onclick="openModal()">Get a custom quote →</button>
+        <a href="pricing.html#payesh" class="btn-ghost" style="border-color: var(--teal, #14B8A9); color: var(--teal, #14B8A9);">See PAYESH plans →</a>
+      </div>
+
+      <div class="stat-strip">
+        <div><div class="num">Live</div><div class="label">Validated on a real production model</div></div>
+        <div><div class="num">5–7d</div><div class="label">Days to your audit report</div></div>
+        <div><div class="num">Under review</div><div class="label">Peer review of the research behind the approach</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="free-tool" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" style="color:var(--teal, #14B8A9);">FREE TOOL · NO LOGIN REQUIRED</span>
+        <h2>See it on your own data before you talk to us</h2>
+        <p>Upload a CSV of your model's past predictions — no setup, nothing installed, nothing leaves your browser — and see in under a minute whether your model's behavior has already started shifting.</p>
+      </div>
+
+      <div class="tool-panel">
+        <span class="tool-badge">⚡ Runs entirely in your browser · Nothing is uploaded to any server</span>
+
+        <div class="dropzone" id="dropzone" onclick="document.getElementById('csvInput').click()">
+          <div class="dz-icon">📊</div>
+          <div class="dz-main">Drop your prediction CSV here</div>
+          <div class="dz-sub">Needs at least: <code>prediction_score</code> or <code>y_pred</code> (0/1), and optionally <code>y_true</code>, feature columns<br>Works with any model — fraud, credit, churn, LLM scoring</div>
+          <div class="dz-sub" style="margin-top:.5rem;">Accepts: .csv · Max 10MB · Processed on your device only</div>
+          <input type="file" id="csvInput" accept=".csv" style="display:none" onchange="handleFile(this.files[0])">
+        </div>
+
+        <div class="tool-controls">
+          <div class="form-row">
+            <label>Production periods to check <span id="periodsVal">5</span></label>
+            <input type="range" id="periodsRange" min="2" max="10" value="5" oninput="document.getElementById('periodsVal').textContent=this.value">
+          </div>
+          <div class="form-row">
+            <label>Alert sensitivity <span id="psiVal">Balanced</span></label>
+            <input type="range" id="psiRange" min="0.05" max="0.5" step="0.01" value="0.25" oninput="updateSensitivityLabel(this.value)">
+          </div>
+          <div class="form-row">
+            <label>What a missed case costs you ($) <span id="costVal">100</span></label>
+            <input type="range" id="costRange" min="10" max="1000" step="10" value="100" oninput="document.getElementById('costVal').textContent=this.value">
+          </div>
+        </div>
+
+        <div class="tool-note">🔒 Nothing is uploaded to any server · everything below is computed on your device</div>
+
+        <div class="tool-results" id="toolResults">
+          <div class="result-grid" id="resultGrid"></div>
+          <div class="feature-list" id="featureList"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">HOW IT HELPS</span>
+        <h2>Know something's wrong before it costs you</h2>
+        <p>Two things happen the moment a scoring model starts drifting: the losses start compounding quietly, and — if you're regulated — you need to be able to show exactly what happened and when. PAYESH is built to catch the first and document the second, without adding infrastructure to your stack.</p>
+      </div>
+
+      <div class="layer-grid">
+        <div class="layer-card">
+          <div class="layer-tag detect">PAYESH Detect</div>
+          <h3>Catch it before your losses do</h3>
+          <div class="layer-tagline detect">The fraud that got through. The applicant who shouldn't have qualified.</div>
+          <p>PAYESH continuously checks whether your model is still making the same kind of decisions it made when it was approved — not whether the server is up, whether the <em>decisions</em> are still right. When something shifts, you get an alert naming what changed, not a vague dashboard.</p>
+          <ul class="layer-features">
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Model behavior tracked every period, not just at deployment</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Alerts point to what actually changed</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> Recommendations weighted to what a miss actually costs you</li>
+            <li><span style="color:#FFB85C;flex-shrink:0">✓</span> One model or many — each one monitored independently, nothing shared</li>
+          </ul>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag govern">PAYESH Govern</div>
+          <h3>The paperwork, already done</h3>
+          <div class="layer-tagline govern">Answer the auditor in minutes, not a scramble.</div>
+          <p>Every check, every change, every deployment is written to a tamper-evident record and mapped to the specific regulation it serves as evidence for. When someone asks "prove your risk-management process is working," you pull a report — you don't reconstruct one from memory.</p>
+          <ul class="layer-features">
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Evidence auto-mapped to the EU AI Act and DORA</li>
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Tamper-evident audit trail — verifiable, not just claimed</li>
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Survives infrastructure restarts — the record doesn't disappear</li>
+            <li><span style="color:#E8B020;flex-shrink:0">✓</span> Report generated on demand, for any model or time window</li>
+          </ul>
+        </div>
+        <div class="layer-card">
+          <div class="layer-tag explain">PAYESH Explain</div>
+          <h3>Why the model decided what it decided</h3>
+          <div class="layer-tagline explain">Turning "the model flagged it" into an answer you can give a customer.</div>
+          <p>A plain-language reason behind every alert, live today — which feature moved, by how much, and whether the shift is statistically real or just noise. When a customer or regulator asks why a decision was made, you have a real answer instead of a shrug.</p>
+          <ul class="layer-features">
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Plain-language reasons behind every alert</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Built directly from what already drives your model's decisions</li>
+            <li><span style="color:#14B8A9;flex-shrink:0">✓</span> Runs on every check by default — nothing extra to enable</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="why-payesh" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" style="color:var(--teal, #14B8A9);">WHAT'S DIFFERENT</span>
+        <h2>Built to answer "is the model still right," not "is the server up"</h2>
+        <p>Most monitoring tools were built for infrastructure — uptime, latency, throughput. None of that tells you whether the model's decisions are still correct. PAYESH watches the one thing that actually costs you money when it goes wrong.</p>
+      </div>
+
+      <div class="diff-grid">
+        <div class="diff-card">
+          <div class="vs-them">"The service is responding" dashboards</div>
+          <div class="vs-us">Is the decision still right?</div>
+          <p>A model can return a 200 response and still be quietly wrong on every third fraud case. PAYESH watches the decisions, not the uptime.</p>
+        </div>
+        <div class="diff-card">
+          <div class="vs-them">One accuracy number for everyone</div>
+          <div class="vs-us">Weighted to what a miss actually costs you</div>
+          <p>A missed fraud case and a false decline don't cost the same. PAYESH's recommendations are built around your real cost, not a generic accuracy score.</p>
+        </div>
+        <div class="diff-card">
+          <div class="vs-them">A six-month infrastructure project</div>
+          <div class="vs-us">Send us your scores, get monitoring today</div>
+          <p>No platform migration, nothing to re-architect. If your model already outputs a score, PAYESH can start watching it this week.</p>
+        </div>
+        <div class="diff-card">
+          <div class="vs-them">Charts only your engineers open</div>
+          <div class="vs-us">A report your compliance team can hand over</div>
+          <p>Every check is written as evidence, mapped to the regulation it supports — built for the person who has to answer the auditor, not just the person who built the model.</p>
+        </div>
+        <div class="diff-card">
+          <div class="vs-them">Retrained blind, redeployed blind</div>
+          <div class="vs-us">A permanent record of every change</div>
+          <p>Every retrain, every threshold change, every redeploy is logged against what came before — so you can point to exactly when and why behavior shifted.</p>
+        </div>
+        <div class="diff-card">
+          <div class="vs-them">One model per account, take it or leave it</div>
+          <div class="vs-us">Every model kept fully separate</div>
+          <p>Your fraud model and a colleague's credit model — or two different customers' models — never share data, thresholds, or alerts. Covered by automated tests against the live API.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">THE PROBLEM</span>
+        <h2>What happens after deployment, quietly</h2>
+        <p>Whether it's transaction patterns shifting, applicant profiles changing, or customer behavior moving — the story is the same across fraud, credit, and claims models: the data your model sees stops looking like the data it was trained on, and nobody notices until it shows up as losses.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot">P0</div><div class="tl-content"><h4>Deployment baseline</h4><p>Model trained and validated. Strong performance on held-out test data — the number everyone signs off on.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">P1–2</div><div class="tl-content"><h4>Performance begins shifting</h4><p>The patterns underneath start moving. Without something watching for it, this is completely invisible.</p></div></div>
+        <div class="tl-item"><div class="tl-dot">P3–4</div><div class="tl-content"><h4>Degradation compounds</h4><p>Performance drifts in ways that still look fine in a monthly summary but aren't.</p></div></div>
+        <div class="tl-item"><div class="tl-dot alert">P5</div><div class="tl-content"><span class="tag-alert">Alert fires</span><h4>PAYESH catches it here</h4><p>Performance drops below your defined safety threshold. You get the alert — and the evidence record — before the losses compound further.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section id="api-access" class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker" style="color:var(--teal, #14B8A9);">API ACCESS</span>
+        <h2>Bring your own model's scores — we do the rest</h2>
+        <p>You don't need to hand over your model. Send PAYESH the scores and labels it's already producing, and it handles the monitoring and the compliance evidence — kept fully separate per model, so multiple teams or customers can run on the same account without touching each other's data.</p>
+      </div>
+
+      <div class="api-teaser">
+        <p>Integration is designed to be a small, focused piece of work. There's no infrastructure to stand up on your side and nothing to migrate.</p>
+        <p>We'll walk through exactly what that looks like for your stack on a scoping call, including what data you'd send, how alerts reach your team, and how the compliance reporting maps to your specific regulatory obligations.</p>
+      </div>
+      <div class="api-caps">
+        <div class="api-cap"><div class="api-cap-label">Integration effort</div><p>Designed to be lightweight, with no platform migration</p></div>
+        <div class="api-cap"><div class="api-cap-label">Alerts</div><p>Delivered however your team already works</p></div>
+        <div class="api-cap"><div class="api-cap-label">Access</div><p>Provisioned per engagement, on a call</p></div>
+        <div class="api-cap"><div class="api-cap-label">Status</div><p>Live</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="wrap">
+      <h2>Do you know if your model<br>still works today?</h2>
+      <p>A 15-minute scoping call is enough to find out whether a PAYESH audit is relevant for your stack. See <a href="pricing.html#payesh" style="color:var(--teal,#14B8A9);text-decoration:underline;">PAYESH plans and pricing</a> first if you'd rather look before you talk.</p>
+      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="openModal()">Get a custom quote →</button>
+    </div>
+  </section>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<div class="modal-overlay" id="quoteModal" style="display:none" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div id="modalContent">
+      <div class="modal-head">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <h3>Get a custom quote</h3>
+        <p>Tell us about your model and stack. We respond within 24 hours.</p>
+      </div>
+      <div class="modal-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 1rem">
+          <div class="form-row"><label>Your name</label><input id="f-name" placeholder="Name"></div>
+          <div class="form-row"><label>Company</label><input id="f-company" placeholder="Organisation"></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 1rem">
+          <div class="form-row"><label>Work email</label><input type="email" id="f-email" placeholder="you@company.com"></div>
+          <div class="form-row"><label>Your role</label>
+            <select id="f-role">
+              <option value="">Select…</option>
+              <option>Head of Risk / CRO</option><option>CTO / VP Engineering</option>
+              <option>Head of Data Science</option><option>Compliance / Audit</option>
+              <option>Fraud Analytics Lead</option><option>MLOps / Platform Lead</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row"><label>Model Type</label>
+          <select id="f-model">
+            <option value="">Select…</option>
+            <option>Fraud detection (XGBoost / LightGBM)</option><option>Credit scoring</option>
+            <option>AML / transaction monitoring</option><option>Churn / propensity model</option>
+            <option>LLM scoring / classification</option><option>Custom / other</option>
+          </select>
+        </div>
+        <div class="form-row"><label>Anything else we should know?</label>
+          <textarea id="f-details" placeholder="Model architecture, current monitoring setup, regulatory context, specific concerns…"></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <span class="modal-foot-note">Opens your email client · hello@strataforge3.com</span>
+        <button class="btn-primary" onclick="submitQuote()">Send request →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/component-loader.js"></script>
+<script src="assets/site.js"></script>
+<script>
+function openModal(){ document.getElementById('quoteModal').style.display='flex'; document.body.style.overflow='hidden'; }
+function closeModal(){ document.getElementById('quoteModal').style.display='none'; document.body.style.overflow=''; }
+
+function submitQuote(){
+  const name    = document.getElementById('f-name').value;
+  const company = document.getElementById('f-company').value;
+  const email   = document.getElementById('f-email').value;
+  const role    = document.getElementById('f-role').value;
+  const model   = document.getElementById('f-model').value;
+  const details = document.getElementById('f-details').value;
+
+  const subject = encodeURIComponent(`Strataforge PAYESH — Quote Request from ${name} · ${company}`);
+  const body    = encodeURIComponent(
+    `Name: ${name}\nCompany: ${company}\nEmail: ${email}\nRole: ${role}\n\n` +
+    `Model type: ${model}\n\nDetails:\n${details}`
+  );
+  window.location.href = `mailto:hello@strataforge3.com?subject=${subject}&body=${body}`;
+
+  document.getElementById('modalContent').innerHTML = `
+    <div class="form-success">
+      <button class="modal-close" onclick="closeModal()">✕</button>
+      <div style="font-size:1.6rem;margin-bottom:.65rem;color:var(--teal, #14B8A9)">◈</div>
+      <h4>Request sent</h4>
+      <p style="margin-top:.45rem">Your email client should have opened with your details pre-filled.<br>We respond within 24 hours.</p>
+      <button class="btn-ghost" style="margin-top:1.4rem" onclick="closeModal()">Close</button>
+    </div>`;
+}
+
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModal(); });
+
+function updateSensitivityLabel(val){
+  const v = parseFloat(val);
+  const label = v < 0.15 ? 'Strict' : v < 0.30 ? 'Balanced' : v < 0.40 ? 'Relaxed' : 'Loose';
+  document.getElementById('psiVal').textContent = label;
+}
+
+const dz = document.getElementById('dropzone');
+['dragover','dragleave','drop'].forEach(evt=>{
+  dz.addEventListener(evt, e=>{
+    e.preventDefault();
+    if(evt==='dragover') dz.classList.add('dragover');
+    if(evt==='dragleave') dz.classList.remove('dragover');
+    if(evt==='drop'){ dz.classList.remove('dragover'); if(e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]); }
+  });
+});
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(',').map(h=>h.trim());
+  const rows = lines.slice(1).map(line=>{
+    const cells = line.split(',');
+    const row = {};
+    headers.forEach((h,i)=> row[h] = cells[i] !== undefined ? cells[i].trim() : '');
+    return row;
+  });
+  return { headers, rows };
+}
+
+function driftScore(expected, actual, buckets=10){
+  const sorted = [...expected].sort((a,b)=>a-b);
+  const breakpoints = [];
+  for(let i=0;i<=buckets;i++){
+    const idx = Math.min(sorted.length-1, Math.floor(i/buckets*sorted.length));
+    breakpoints.push(sorted[idx]);
+  }
+  breakpoints[0] = -Infinity; breakpoints[buckets] = Infinity;
+  function bucketCounts(arr){
+    const counts = new Array(buckets).fill(0);
+    arr.forEach(v=>{
+      for(let b=0;b<buckets;b++){
+        if(v > breakpoints[b] && v <= breakpoints[b+1]){ counts[b]++; break; }
+      }
+    });
+    return counts.map(c=> Math.max(c/arr.length, 1e-6));
+  }
+  const e = bucketCounts(expected), a = bucketCounts(actual);
+  let total = 0;
+  for(let i=0;i<buckets;i++) total += (a[i]-e[i]) * Math.log(a[i]/e[i]);
+  return total;
+}
+
+function handleFile(file){
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const { headers, rows } = parseCSV(e.target.result);
+      runDriftCheck(headers, rows);
+    }catch(err){
+      alert('Could not parse this CSV. Please check the format and try again.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function runDriftCheck(headers, rows){
+  const scoreCol = headers.find(h => /prediction_score|y_pred|score/i.test(h));
+  const truthCol = headers.find(h => /y_true|label|actual/i.test(h));
+  if(!scoreCol){ alert('No prediction_score / y_pred column found.'); return; }
+
+  const periods = parseInt(document.getElementById('periodsRange').value, 10);
+  const sensitivity = parseFloat(document.getElementById('psiRange').value);
+
+  const scores = rows.map(r => parseFloat(r[scoreCol])).filter(v=>!isNaN(v));
+  const truths = truthCol ? rows.map(r => parseFloat(r[truthCol])).filter(v=>!isNaN(v)) : null;
+
+  const featureCols = headers.filter(h => h!==scoreCol && h!==truthCol && !isNaN(parseFloat(rows[0]?.[h])));
+  const chunkSize = Math.floor(scores.length / periods) || 1;
+  const baseline = scores.slice(0, chunkSize);
+  let worstScore = 0, lastRecall = null, firstRecall = null;
+
+  for(let p=0;p<periods;p++){
+    const chunk = scores.slice(p*chunkSize, (p+1)*chunkSize);
+    if(chunk.length < 2) continue;
+    const s = driftScore(baseline, chunk);
+    if(s > worstScore) worstScore = s;
+    if(truths){
+      const tChunk = truths.slice(p*chunkSize, (p+1)*chunkSize);
+      const preds = chunk.map(s => s >= 0.5 ? 1 : 0);
+      let tp=0, fn=0;
+      for(let i=0;i<tChunk.length;i++){ if(tChunk[i]===1){ if(preds[i]===1) tp++; else fn++; } }
+      const recall = (tp+fn) > 0 ? tp/(tp+fn) : null;
+      if(firstRecall===null) firstRecall = recall;
+      lastRecall = recall;
+    }
+  }
+
+  const featureShift = featureCols.map(f=>{
+    const vals = rows.map(r=>parseFloat(r[f])).filter(v=>!isNaN(v));
+    const base = vals.slice(0, chunkSize);
+    const recent = vals.slice(-chunkSize);
+    return { name: f, score: (base.length>1 && recent.length>1) ? driftScore(base, recent) : 0 };
+  }).sort((a,b)=>b.score-a.score);
+
+  const shiftedFeatures = featureShift.filter(f => f.score >= sensitivity);
+
+  const driftLevel = worstScore >= sensitivity ? 'bad' : worstScore >= sensitivity*0.6 ? 'warn' : 'ok';
+  const driftLabel = driftLevel === 'bad' ? 'Drifting' : driftLevel === 'warn' ? 'Early shift' : 'Stable';
+  const recallLevel = lastRecall===null ? 'ok' : lastRecall < 0.6 ? 'bad' : lastRecall < 0.75 ? 'warn' : 'ok';
+  const recallTrend = (firstRecall!==null && lastRecall!==null)
+    ? (lastRecall < firstRecall - 0.03 ? 'Declining' : lastRecall > firstRecall + 0.03 ? 'Improving' : 'Stable')
+    : null;
+
+  document.getElementById('resultGrid').innerHTML = `
+    <div class="result-cell"><div class="rlabel">Model stability</div><div class="rval ${driftLevel}">${driftLabel}</div></div>
+    <div class="result-cell"><div class="rlabel">Recall trend</div><div class="rval ${recallLevel}">${lastRecall===null?'n/a (no y_true)':recallTrend + ' — ' + (lastRecall*100).toFixed(0)+'%'}</div></div>
+    <div class="result-cell locked"><div class="rlabel">Optimized decision threshold</div><div class="rval">Calculated in a scoping call</div><div class="runlock" onclick="openModal()">See it on a call →</div></div>
+    <div class="result-cell"><div class="rlabel">Rows analyzed</div><div class="rval ok">${scores.length.toLocaleString()}</div></div>
+  `;
+
+  let featureHtml = '';
+  if(shiftedFeatures.length === 0){
+    featureHtml = '<div class="feature-summary">No individual feature shows a meaningful shift on its own — worth re-checking as more recent data comes in.</div>';
+  } else {
+    const names = shiftedFeatures.slice(0,5).map(f=>f.name).join(', ');
+    featureHtml = `<div class="feature-summary">${shiftedFeatures.length} feature${shiftedFeatures.length===1?'':'s'} showing meaningful shift, including <span class="fnames">${names}</span>.</div>
+    <span class="feature-cta" onclick="openModal()">See exactly how much each one moved, and what to do about it →</span>`;
+  }
+  document.getElementById('featureList').innerHTML = featureHtml;
+
+  document.getElementById('toolResults').classList.add('show');
+}
+</script>
+</body>
+</html>
