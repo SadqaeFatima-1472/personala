@@ -5,7 +5,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root{
-  /* Core palette — locked to brand banner */
   --navy-deep: #14153E;
   --navy: #1E2068;
   --navy-light: #2B2D7E;
@@ -76,9 +75,7 @@ img,svg{display:block; max-width:100%;}
 }
 
 /* ============================================
-   NAV — REPLACEMENT BLOCK for assets/styles.css
-   Replace everything from the "NAV — single consolidated block"
-   comment down to (but not including) "/* ---------- Page shell ---------- */"
+   NAV
    ============================================ */
 
 nav{
@@ -88,15 +85,16 @@ nav{
   border-bottom: 1px solid var(--panel-border-soft);
 }
 nav .wrap{
-  display:flex; align-items:center; justify-content:space-between; height:78px;
+  display:flex; align-items:center; justify-content:space-between; height:80px;
   gap: 24px; max-width: 1240px;
 }
 
+/* LOGO: enlarged so the animated SVG is readable (was 32px) */
 .nav-mark{ display:flex; align-items:center; gap:12px; flex-shrink:0; text-decoration:none; }
 .nav-mark svg,
-.nav-mark .nav-logo-img{ width:32px; height:32px; flex-shrink:0; object-fit:contain; display:block; }
+.nav-mark .nav-logo-img{ width:52px; height:52px; flex-shrink:0; object-fit:contain; display:block; }
 .nav-mark .wordmark{
-  font-family:var(--serif); font-weight:700; font-size:18px;
+  font-family:var(--serif); font-weight:700; font-size:20px;
   letter-spacing:0.5px; color:var(--text-primary); white-space:nowrap;
 }
 
@@ -108,10 +106,9 @@ nav .wrap{
 .nav-links a:hover{ color:var(--text-primary); }
 .nav-links a.active{ color:var(--text-primary); }
 .nav-links a.active::after{
-  content:''; position:absolute; bottom:-26px; left:0; right:0; height:2px;
+  content:''; position:absolute; bottom:-28px; left:0; right:0; height:2px;
   background: linear-gradient(90deg, var(--orange), var(--crimson));
 }
-/* no underline bar on items inside dropdown panels */
 .nav-dropdown-menu a.active::after{ display:none; }
 .nav-dropdown-menu a.active{ color:var(--orange-hi); }
 
@@ -126,7 +123,7 @@ nav .wrap{
 .nav-toggle{ display:none; }
 .mobile-cta-link{ display:none; }
 
-/* ---------- Dropdowns (Audit / Product / Research / Company) ---------- */
+/* ---------- Dropdowns ---------- */
 .nav-dropdown{ position: relative; }
 .nav-dropdown-toggle{
   background:none; border:none; cursor:pointer; font-family:var(--sans);
@@ -160,17 +157,18 @@ nav .wrap{
 
 /* ---------- Nav — Mobile / tablet (hamburger below 1025px) ---------- */
 @media (max-width: 1024px){
-  nav .wrap{ height:70px; padding: 0 20px; }
-  .nav-mark .wordmark{ font-size:14px; }
-  .nav-mark svg, .nav-mark .nav-logo-img{ width:26px; height:26px; }
+  nav .wrap{ height:72px; padding: 0 20px; }
+  .nav-mark{ gap:10px; }
+  .nav-mark .wordmark{ font-size:16px; }
+  .nav-mark svg, .nav-mark .nav-logo-img{ width:44px; height:44px; }
 
   .nav-cta{ display:none; }
 
   .nav-links{
-    position:fixed; top:70px; left:0; right:0; margin-left:0; background:var(--navy-deep);
+    position:fixed; top:72px; left:0; right:0; margin-left:0; background:var(--navy-deep);
     flex-direction:column; align-items:flex-start; padding:24px 20px; gap:20px;
     border-bottom:1px solid var(--panel-border-soft);
-    max-height:calc(100vh - 70px); overflow-y:auto;
+    max-height:calc(100vh - 72px); overflow-y:auto;
     transform:translateY(-130%); transition:transform .25s ease; z-index:999;
     box-shadow:0 12px 24px rgba(0,0,0,0.3);
   }
@@ -200,6 +198,11 @@ nav .wrap{
   }
   .nav-dropdown-menu::before{ display:none; }
   .nav-dropdown-menu a{ white-space:normal; }
+}
+
+@media (max-width: 380px){
+  .nav-mark .wordmark{ font-size:14px; letter-spacing:0.2px; }
+  .nav-mark svg, .nav-mark .nav-logo-img{ width:40px; height:40px; }
 }
 
 /* ---------- Page shell ---------- */
@@ -413,19 +416,38 @@ table.score-table tr:last-child td{border-bottom:none;}
 .cta-section h2{font-size:36px; max-width:560px; margin:0 auto;}
 .cta-section p{color:var(--text-secondary); margin:18px auto 36px; max-width:480px; font-size:16.5px;}
 
-/* ---------- Footer ---------- */
-footer{border-top:1px solid var(--panel-border-soft); padding:44px 0; position:relative; z-index:1;}
-footer .footer-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px; margin-bottom:32px;}
-footer .fm{display:flex; align-items:center; gap:10px;}
-footer .fm svg{width:24px; height:24px;}
-footer .fm .wordmark{font-family:var(--serif); font-weight:700; font-size:16px;}
-footer .fm .wordmark em{font-style:normal; color:var(--orange);}
-footer .ftag{font-size:13px; color:var(--text-tertiary); margin-top:8px; max-width:280px; line-height:1.6;}
-footer .fcols{display:flex; gap:64px;}
-footer .fcol h5{font-family:var(--mono); font-size:11px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px;}
+/* ============================================
+   FOOTER (matches .site-footer markup)
+   ============================================ */
+footer{border-top:1px solid var(--panel-border-soft); padding:48px 0 32px; position:relative; z-index:1;}
+
+/* top row: brand left, link columns right */
+.site-footer .wrap{
+  display:flex; justify-content:space-between; align-items:flex-start;
+  flex-wrap:wrap; gap:40px;
+}
+
+/* LOGO: logo.svg at a visible size */
+.footer-logo{ display:inline-flex; align-items:center; gap:14px; text-decoration:none; }
+.footer-logo-img{ width:60px; height:60px; flex-shrink:0; object-fit:contain; display:block; }
+.footer-logo .wordmark,
+footer .wordmark{
+  font-family:var(--serif); font-weight:700; font-size:22px;
+  letter-spacing:0.5px; color:var(--text-primary); white-space:nowrap;
+}
+footer .ftag{font-size:13.5px; color:var(--text-tertiary); margin-top:14px; max-width:300px; line-height:1.6;}
+
+footer .fcols{display:flex; gap:64px; flex-wrap:wrap;}
+footer .fcol h5{font-family:var(--mono); font-size:11px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:14px; font-weight:500;}
 footer .fcol a{display:block; font-size:14px; color:var(--text-secondary); margin-bottom:10px; transition:color .15s;}
 footer .fcol a:hover{color:var(--text-primary);}
-footer .fbottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding-top:24px; border-top:1px solid var(--panel-border-soft);}
+
+footer .fbottom{
+  max-width:1080px; margin:36px auto 0; padding:24px 32px 0;
+  border-top:1px solid var(--panel-border-soft);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+footer .fbottom p,
 footer .fbottom span{font-size:12.5px; color:var(--text-tertiary);}
 
 /* ---------- Responsive (non-nav) ---------- */
@@ -443,6 +465,12 @@ footer .fbottom span{font-size:12.5px; color:var(--text-tertiary);}
   section{padding:56px 0;}
   .page-hero{padding:56px 0 40px;}
   .wrap{padding:0 20px;}
-  footer .footer-top{flex-direction:column;}
-  footer .fcols{gap:40px;}
+
+  /* footer mobile */
+  .site-footer .wrap{flex-direction:column; gap:32px;}
+  .footer-logo-img{width:52px; height:52px;}
+  .footer-logo .wordmark, footer .wordmark{font-size:19px;}
+  footer .fcols{gap:32px 40px; width:100%;}
+  footer .fcol{min-width:140px;}
+  footer .fbottom{padding:20px 20px 0; margin-top:28px;}
 }
