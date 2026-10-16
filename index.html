@@ -6,15 +6,6 @@
 <title>Strataforge3 — Engineered for Production</title>
 <meta name="description" content="A fixed two-week audit that finds the hidden risk in your AI systems before a customer, auditor, or board member does.">
 <link rel="stylesheet" href="assets/styles.css">
-<style>
-  /* Founder photo: replaces the old "SF" gradient avatar.
-     Keeps the same 180px square (110px on mobile, set in styles.css). */
-  img.bio-avatar{
-    display:block; object-fit:cover; object-position:center 20%;
-    background:var(--panel-raised); border:1px solid var(--panel-border);
-    border-radius:14px;
-  }
-</style>
 </head>
 <body>
 
@@ -50,8 +41,8 @@
       <h1>Find out what's actually broken in your AI systems —<br><span class="accent">before a customer does.</span></h1>
       <p class="page-sub">A fixed two-week audit of the AI features you've shipped — scored, ranked, and written for the person who has to act on the findings, not the person who already understands the system.</p>
       <div class="hero-row">
-        <button class="btn-primary" onclick="window.location.href='audit-offer.html'">See the audit offer</button>
-        <span class="btn-ghost" onclick="window.location.href='pricing.html'">View pricing →</span>
+        <a class="btn-primary" href="audit-offer.html">See the audit offer</a>
+        <a class="btn-ghost" href="pricing.html">View pricing →</a>
       </div>
       <div class="stat-strip">
         <div><div class="num">2 weeks</div><div class="label">fixed engagement length</div></div>
@@ -111,31 +102,11 @@
     </div>
   </section>
 
-  <hr class="divider">
-
-  <section>
-    <div class="wrap">
-      <div class="section-head" style="margin-bottom:32px;">
-        <span class="kicker">ABOUT</span>
-        <h2>Built by someone who's shipped production AI compliance systems, not just talked about them.</h2>
-      </div>
-      <div class="panel bio-grid" style="padding:36px;">
-        <img class="bio-avatar" src="assets/bni.png" alt="Syeda Beenish Fatima, founder of Strataforge3" width="180" height="180" loading="lazy">
-        <div>
-          <h3>Syeda Beenish Fatima</h3>
-          <span class="bio-role">FOUNDER, STRATAFORGE3</span>
-          <p>Beenish founded MaqasidAI and built MACI (Maqasid AI Compliance Index), a production-grade Shariah compliance signal layer used in Islamic finance and other values-sensitive institutional contexts. MACI runs as a live system — fine-tuned classification, a fiqh ruling retrieval index, a deployed API and demo — covering eight violation classes across five madhabs and six languages.</p>
-          <p>Strataforge3 applies that same standard — systems that hold up under real production load and real scrutiny, not just a demo — to a different problem: finding the hidden risk in AI systems that were shipped fast and never formally audited.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="cta-section">
     <div class="wrap">
       <h2>Know exactly where the risk is before someone else finds it.</h2>
       <p>A 20-minute call to see if an audit makes sense for what you've built.</p>
-      <button class="btn-primary" style="padding:15px 32px; font-size:15.5px;" onclick="window.location.href='contact.html'">Book a 20-minute call</button>
+      <a class="btn-primary" style="padding:15px 32px; font-size:15.5px;" href="contact.html">Book a 20-minute call</a>
     </div>
   </section>
 </main>
