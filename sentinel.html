@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAYESH — Model drift monitoring | Strataforge3</title>
+<meta name="description" content="PAYESH watches the models you've already deployed, flags drift and recall decay before they turn into losses, and keeps an evidence trail you can show an auditor.">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A3D"/>
+      <stop offset="100%" stop-color="#C2342A"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<div class="ambient-nodes"></div>
+<svg class="ambient-hex" viewBox="0 0 620 620" fill="none">
+  <polygon points="520,40 580,75 580,145 520,180 460,145 460,75" fill="url(#markGrad)" opacity="0.85"/>
+  <polygon points="430,90 480,118 480,176 430,204 380,176 380,118" fill="url(#markGrad)" opacity="0.55"/>
+  <polygon points="540,170 600,205 600,275 540,310 480,275 480,205" fill="url(#markGrad)" opacity="0.7"/>
+</svg>
+
+<div id="nav-placeholder"></div>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="eyebrow"><span class="dot"></span>PAYESH · MODEL DRIFT MONITORING</div>
+      <h1>Your model passed testing.<br><span class="accent">Is it still working today?</span></h1>
+      <p class="page-sub">Fraud, credit, claims and churn models slowly stop matching the real world after launch. PAYESH watches the predictions your model is already making, and tells you where it has started to slip, before the cost shows up as losses.</p>
+      <div class="hero-row">
+        <a class="btn-primary" href="simulation.html">Try the live demo</a>
+        <a class="btn-ghost" href="contact.html">Request an audit →</a>
+      </div>
+      <!-- keep-sentinel:start -->
+      <p style="margin-top:28px; font-size:13.5px; color:var(--text-tertiary);">PAYESH was previously called Sentinel. Old links and references still work.</p>
+      <!-- keep-sentinel:end -->
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">THE PROBLEM</span>
+        <h2>A model rarely fails loudly. It gets a little worse every week.</h2>
+        <p>Customer behaviour changes, a data source is updated, fraudsters adapt. The model keeps returning scores, and nothing looks broken. The first sign is usually a loss, a complaint or an auditor's question. By then the decay has been running for months.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">WHAT PAYESH WATCHES</span>
+        <h2>Four signals, checked on every period of production data.</h2>
+        <p>Each one answers a question a risk owner actually has to answer.</p>
+      </div>
+      <div class="surfaces">
+        <div class="surface">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg></div>
+          <h3>Score and feature drift</h3>
+          <p>Has the shape of the model's scores, or of its input features, moved away from the reference period? Measured with the Population Stability Index (PSI) and ranked, so you see which feature moved first.</p>
+        </div>
+        <div class="surface">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M3 4v16h18"/><path d="M7 8l4 5 3-3 5 6"/></svg></div>
+          <h3>Recall decay</h3>
+          <p>Of the cases that really were fraud (or default, or churn), how many is the model still catching compared with launch? Shown period by period when you have confirmed outcomes.</p>
+        </div>
+        <div class="surface">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M4 8h10M18 8h2M4 16h2M10 16h10"/><circle cx="16" cy="8" r="2"/><circle cx="8" cy="16" r="2"/></svg></div>
+          <h3>Decision threshold</h3>
+          <p>Sometimes the model is fine and the cut-off is stale. PAYESH weighs the cost of a miss against the cost of a false alarm and suggests a threshold, which can recover performance without retraining.</p>
+        </div>
+        <div class="surface">
+          <div class="si"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6"><path d="M12 2 3 7v6c0 5 4 8.5 9 9 5-.5 9-4 9-9V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg></div>
+          <h3>Evidence trail</h3>
+          <p>Every alert, threshold change and decision is recorded in a tamper-evident log, so you can show a regulator or auditor what was known, and when.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">HOW IT WORKS</span>
+        <h2>From a reference baseline to a recommendation you can act on.</h2>
+      </div>
+      <div class="process-list">
+        <div class="process-item">
+          <div class="process-num">1</div>
+          <div>
+            <h4>Set the reference</h4>
+            <p>PAYESH takes a period when the model was known to be healthy and records what its scores and features looked like.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">2</div>
+          <div>
+            <h4>Compare every new period</h4>
+            <p>Production data is split into periods and compared with the reference, for scores, for each feature and, where outcomes are known, for recall.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">3</div>
+          <div>
+            <h4>Alert at the level you choose</h4>
+            <p>You set how sensitive the monitor is. Small shifts go on a watch list, and larger ones raise an alert with the feature that caused it.</p>
+          </div>
+        </div>
+        <div class="process-item">
+          <div class="process-num">4</div>
+          <div>
+            <h4>Recommend and record</h4>
+            <p>Each alert comes with a plain-language next step, such as investigate a feature, adjust a threshold or schedule a retrain. It is logged in the evidence trail.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">THE RESEARCH BEHIND IT</span>
+        <h2>Tested on public data, written up in the open.</h2>
+        <p>The method is documented in our research notes, including results on public fraud datasets.</p>
+      </div>
+      <div class="surfaces">
+        <a class="surface" href="case-study-fraud.html">
+          <h3>Recall decay detection</h3>
+          <p>How PAYESH detects a fraud model losing recall, tested on the ULB credit card dataset.</p>
+        </a>
+        <a class="surface" href="case-study-ieee.html">
+          <h3>False-alarm resistance</h3>
+          <p>How the monitor avoids crying wolf, tested on the IEEE-CIS fraud dataset.</p>
+        </a>
+        <a class="surface" href="lifecycle-audit.html">
+          <h3>Lifecycle audit trail</h3>
+          <p>How decisions about a model are recorded from launch to retirement.</p>
+        </a>
+        <a class="surface" href="eu-ai-act.html">
+          <h3>EU AI Act and governance</h3>
+          <p>What monitoring and record-keeping a high-risk system is expected to show.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <section>
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">WORKING WITH US</span>
+        <h2>Start with a diagnosis, then decide on continuous monitoring.</h2>
+        <p>If you want to see the method first, the live demo runs on sample data. If you want it applied to your own model, a PAYESH engagement covers continuous monitoring, threshold tuning using your cost figures, the evidence trail, and a debrief call with the findings. Teams reviewing the wider AI estate can start with the fixed two-week <a href="audit-offer.html" style="color:var(--orange-hi); text-decoration:underline;">AI Production Risk Audit</a>.</p>
+      </div>
+      <div class="hero-row" style="margin-top:8px;">
+        <a class="btn-primary" href="simulation.html">Open the live demo</a>
+        <a class="btn-secondary" href="pricing.html">View pricing</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="wrap">
+      <h2>Find out whether your model is drifting before your customers do.</h2>
+      <p>A 20-minute call to see if PAYESH fits what you've deployed.</p>
+      <a class="btn-primary" style="padding:15px 32px; font-size:15.5px;" href="contact.html">Book a 20-minute call</a>
+    </div>
+  </section>
+</main>
+
+<div id="footer-placeholder"></div>
+
+<script src="assets/component-loader.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
