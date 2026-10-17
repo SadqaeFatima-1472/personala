@@ -18,9 +18,6 @@ import re, sys, pathlib
 EXTS = {'.html', '.py', '.md', '.txt', '.js', '.ts', '.tsx', '.css'}
 SKIP = {'.git', 'node_modules', '.wrangler', 'dist', '__pycache__'}
 RULES = [
-    (re.compile(r'\bsentinel\.html\b'), 'payesh.html'),
-    (re.compile(r'#sentinel\b'), '#payesh'),
-    (re.compile(r'id="sentinel"'), 'id="payesh"'),
     (re.compile(r'\bSentinel\b'), 'PAYESH'),
     (re.compile(r'\bSENTINEL\b'), 'PAYESH'),
 ]
