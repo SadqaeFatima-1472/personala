@@ -1,0 +1,3 @@
+# Old product name -> new name (keeps old links, emails and bookmarks working)
+/sentinel        /payesh        301
+/sentinel.html   /payesh.html   301
